@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { VolunteersListComponent } from './components/volunteers-list/volunteers-list.component';
+import {VolunteersRoutingModule} from "./volunteers-routing.module";
+import {SharedModule} from "../shared/shared.module";
+import {CommonModule} from "@angular/common";
+import {VolunteersService} from "./services/volunteer.service";
 
 
 
@@ -9,7 +12,12 @@ import { VolunteersListComponent } from './components/volunteers-list/volunteers
     VolunteersListComponent
   ],
   imports: [
+    VolunteersRoutingModule,
+    SharedModule,
     CommonModule
+  ],
+  providers: [
+    VolunteersService
   ]
 })
 export class VolunteersModule { }

@@ -1,0 +1,34 @@
+@import "src/assets/colors.scss";
+
+.spinner {
+  position: relative;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+}
+
+.name {
+  color: white;
+}
+
+div {
+  border-bottom: lightgray thin solid;
+}
+
+.form {
+  width: 100%;
+}
+
+.form > mat-form-field {
+  width: 100%;
+}
+
+button {
+  margin-bottom: 20px;
+}
+
+.btn_icon {
+  margin: auto 10px;
+}

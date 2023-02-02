@@ -1,1 +1,25 @@
-<p>volunteers-list works!</p>
+<h1>Liste des bénévoles</h1>
+<button mat-flat-button color="primary" (click)="onNewVolunteer()" matTooltip="Ajouter un bénévole" matTooltipPosition="right">
+  <mat-icon class="btn_icon">add</mat-icon>
+</button>
+<mat-card>
+  <mat-card-title-group>
+    <div class="form">
+      <mat-form-field appearance="fill">
+        <input matInput type="text" [formControl]="searchCtrl">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-select [formControl]="searchTypeCtrl">
+          <mat-option *ngFor="let option of searchTypeOptions" [value]="option.value">{{ option.label }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </mat-card-title-group>
+  <mat-spinner *ngIf="loading$ | async" class="spinner"></mat-spinner>
+  <mat-nav-list *ngIf="volunteers$ | async as volunteers">
+    <a *ngFor="let volunteer of volunteers" mat-list-item [routerLink]="volunteer._id.toString()">
+      <h1 matLine class="name">{{ volunteer.nom | uppercase }} {{volunteer.prenom}}</h1>
+    </a>
+  </mat-nav-list>
+</mat-card>
