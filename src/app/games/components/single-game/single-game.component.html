@@ -8,6 +8,7 @@
     </div>
   </ng-container>
   <mat-card-actions>
+    <mat-spinner *ngIf="loading$ | async; else buttons" class="spinner"></mat-spinner>
     <ng-template #buttons>
       <div class="separator"></div>
       <button mat-flat-button color="primary" (click)="onRemove()">

@@ -67,7 +67,7 @@ export class GameFormComponent implements OnInit {
 
   private initAddForm() {
     this.mainForm = this.formBuilder.group({
-      name: ['', Validators.required],
+      nom: ['', Validators.required],
       type: ['', Validators.required]
     });
   }
@@ -83,7 +83,7 @@ export class GameFormComponent implements OnInit {
     this.game$.pipe(
       tap((game) => {
         this.mainForm = this.formBuilder.group({
-          name: [game.nom, Validators.required],
+          nom: [game.nom, Validators.required],
           type: [game.type, Validators.required],
         });
       })
@@ -109,7 +109,6 @@ export class GameFormComponent implements OnInit {
   private updateGame() {
     let updatedGame : Game = {
       ...this.mainForm.value,
-      _id: this.currentGameId,
     }
     this.gamesService.updateGame(this.currentGameId, updatedGame).pipe(
       tap(saved => {

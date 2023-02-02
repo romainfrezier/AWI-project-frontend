@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {BehaviorSubject, catchError, delay, map, mapTo, Observable, of, switchMap, take, tap} from 'rxjs';
-import {environment} from "../../../environments/environment";
+import {environment} from "../../../environments/environment.prod";
 import {Volunteer} from "../models/volunteer.model";
 
 @Injectable()

@@ -62,7 +62,7 @@ export class GamesService {
   }
 
   updateGame(id: string, updatedGame: Game) {
-    return this.http.patch(`${environment.apiUrl}/games/${id}`, updatedGame).pipe(
+    return this.http.put(`${environment.apiUrl}/games/${id}`, updatedGame).pipe(
       mapTo(true),
       catchError(() => of(false).pipe())
     );

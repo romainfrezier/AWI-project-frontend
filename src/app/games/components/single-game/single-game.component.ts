@@ -11,6 +11,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 })
 export class SingleGameComponent implements OnInit {
 
+  loading$!: Observable<boolean>;
   game$!: Observable<Game>;
 
   constructor(private applicationsService: GamesService,
@@ -22,6 +23,7 @@ export class SingleGameComponent implements OnInit {
   }
 
   private initObservables() {
+    this.loading$ = this.applicationsService.loading$;
     this.game$ = this.route.params.pipe(
       switchMap(params => this.applicationsService.getGameById(params['id']))
     );
