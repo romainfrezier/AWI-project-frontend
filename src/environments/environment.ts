@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiUrl: 'https://europe-west1-awi-project-868686.cloudfunctions.net/api'
 };
 
 /*

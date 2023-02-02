@@ -1,5 +1,3 @@
-@import "src/assets/colors.scss";
-
 .spinner {
   position: relative;
   margin-left: auto;
@@ -10,10 +8,10 @@
 }
 
 .name {
-  color: white;
+  color: rgb(178,83,175);
 }
 
-div {
+a {
   border-bottom: lightgray thin solid;
 }
 
@@ -22,7 +20,7 @@ div {
 }
 
 .form > mat-form-field {
-  width: 100%;
+  width: 50%;
 }
 
 button {

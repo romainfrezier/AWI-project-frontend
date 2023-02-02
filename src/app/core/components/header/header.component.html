@@ -1,1 +1,9 @@
-<p>header works!</p>
+<mat-toolbar color="primary">
+  <span>Festival App</span>
+  <span class="spacer"></span>
+  <ul>
+    <li><a routerLink="/volunteers" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Bénévoles</a></li>
+    <li><a routerLink="/games" routerLinkActive="active" >Jeux</a></li>
+    <li><a routerLink="/assignments" routerLinkActive="active" >Affectations</a></li>
+  </ul>
+</mat-toolbar>

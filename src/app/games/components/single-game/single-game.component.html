@@ -1,0 +1,25 @@
+<mat-card>
+  <ng-container *ngIf="game$ | async as game">
+    <mat-card-title>
+      {{ game.nom }}
+    </mat-card-title>
+    <div class="game-info">
+      <p>Type de jeu : {{ game.type }} </p>
+    </div>
+  </ng-container>
+  <mat-card-actions>
+    <ng-template #buttons>
+      <div class="separator"></div>
+      <button mat-flat-button color="primary" (click)="onRemove()">
+        <mat-icon class="btn_icon" matTooltip="Supprimer le jeu">delete</mat-icon>
+      </button>
+      <button mat-flat-button color="primary" (click)="onUpdate()">
+        <mat-icon class="btn_icon" matTooltip="Modifier le jeu">edit</mat-icon>
+      </button>
+      <div class="separator"></div>
+      <button mat-flat-button color="primary" (click)="onGoBack()" matTooltip="Retour" matTooltipPosition="right">
+        <mat-icon class="btn_icon" >arrow_back</mat-icon>
+      </button>
+    </ng-template>
+  </mat-card-actions>
+</mat-card>
