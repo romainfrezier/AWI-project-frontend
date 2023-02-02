@@ -1,1 +1,36 @@
-<p>game-form works!</p>
+<mat-card [formGroup]="mainForm" class="main-form">
+
+  <mat-card-title *ngIf="!currentGameId">Ajouter un jeu</mat-card-title>
+  <mat-card-title *ngIf="currentGameId">Modifier le jeu</mat-card-title>
+
+  <mat-card class="form-card">
+    <mat-card-subtitle>Nom</mat-card-subtitle>
+    <div class="form-row">
+      <mat-form-field appearance="fill">
+        <mat-label>Nom</mat-label>
+        <input type="text" matInput formControlName="name">
+        <mat-error>Ce champ est requis</mat-error>
+      </mat-form-field>
+    </div>
+  </mat-card>
+
+  <mat-card class="form-card">
+    <mat-card-subtitle>Type de jeu</mat-card-subtitle>
+    <mat-radio-group formControlName="contactType" class="radio-group">
+      <mat-radio-button *ngFor="let gameType of gameTypeOptions" [value]="gameType">{{ gameType }}</mat-radio-button>
+    </mat-radio-group>
+  </mat-card>
+
+  <mat-card-actions *ngIf="mainForm.valid">
+    <button *ngIf="!currentGameId" mat-flat-button color="primary" (click)="onSubmitForm()" [disabled]="loading" matTooltip="Enregister le nouveau jeu" matTooltipPosition="left">
+      <mat-icon class="btn_icon">save</mat-icon>
+    </button>
+    <button *ngIf="currentGameId" mat-flat-button color="primary" (click)="onSubmitForm()" [disabled]="loading" matTooltip="Sauvegarder le jeu" matTooltipPosition="left">
+      <mat-icon class="btn_icon">save</mat-icon>
+    </button>
+  </mat-card-actions>
+  <button mat-flat-button color="primary" (click)="onGoBack()" [disabled]="loading" matTooltip="Retour" matTooltipPosition="right">
+    <mat-icon class="btn_icon">arrow_back</mat-icon>
+  </button>
+  <mat-spinner class="spinner" *ngIf="loading" color="primary" mode="indeterminate"></mat-spinner>
+</mat-card>

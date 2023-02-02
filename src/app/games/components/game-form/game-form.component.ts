@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {GameTypeEnum} from "../../enums/gameType.enum";
+import {Observable, switchMap, tap} from "rxjs";
+import {Game} from "../../models/game.model";
+import {GameFormService} from "../../services/game-form.service";
+import {GamesService} from "../../services/game.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-game-form',
@@ -10,16 +17,14 @@ export class GameFormComponent implements OnInit {
   loading = false;
 
   mainForm!: FormGroup;
-  contactTypeOptions!: ContactTypeEnum[];
-  sectorTypeOptions!: SectorTypeEnum[];
+  gameTypeOptions!: GameTypeEnum[];
 
-  application$!: Observable<Application>;
-  currentGameId!: number;
-  currentApplicationCompany!: string;
+  game$!: Observable<Game>;
+  currentGameId!: string;
 
   constructor(private formBuilder: FormBuilder,
-              private formService: FormService,
-              private applicationsService: ApplicationsService,
+              private formService: GameFormService,
+              private gamesService: GamesService,
               private router: Router,
               private route: ActivatedRoute) { }
 
@@ -29,7 +34,7 @@ export class GameFormComponent implements OnInit {
   }
 
   private initMainForm(): void {
-    if (this.router.url === "/applications/add") {
+    if (this.router.url === "/games/add") {
       this.initAddForm();
     } else {
       this.initUpdateForm();
@@ -38,12 +43,12 @@ export class GameFormComponent implements OnInit {
 
   onSubmitForm() {
     this.loading = true;
-    if (this.router.url === "/applications/add") {
-      this.saveApplication();
+    if (this.router.url === "/games/add") {
+      this.saveGame();
     } else {
-      this.updateApplication();
+      this.updateGame();
     }
-    this.router.navigateByUrl('/applications')
+    this.router.navigateByUrl('/games')
   }
 
   private resetForm(){
@@ -51,69 +56,45 @@ export class GameFormComponent implements OnInit {
   }
 
   private initOptions() {
-    this.contactTypeOptions = [
-      ContactTypeEnum.LINKEDIN,
-      ContactTypeEnum.EMAIL_PERSO,
-      ContactTypeEnum.EMAIL_SUPPORT,
-      ContactTypeEnum.FORMULAIRE_CONTACT,
-      ContactTypeEnum.FORMULAIRE_CANDIDATURE_SPON,
-      ContactTypeEnum.OFFRE_STAGE
-    ];
-    this.sectorTypeOptions = [
-      SectorTypeEnum.AI,
-      SectorTypeEnum.RECRUITER,
-      SectorTypeEnum.B2B,
-      SectorTypeEnum.SECURTY,
-      SectorTypeEnum.VIDEO_GAMES,
-      SectorTypeEnum.FINANCE,
-      SectorTypeEnum.WEB
+    this.gameTypeOptions = [
+      GameTypeEnum.CHILD,
+      GameTypeEnum.FAMILY,
+      GameTypeEnum.MOOD,
+      GameTypeEnum.INSIDER,
+      GameTypeEnum.EXPERT
     ];
   }
 
   private initAddForm() {
     this.mainForm = this.formBuilder.group({
-      company: ['', Validators.required],
-      address: ['', Validators.required],
-      contactType: ['', Validators.required],
-      contact: ['', Validators.required],
-      message: ['', Validators.required],
-      sector: ['', Validators.required],
-      commentary: ['']
+      name: ['', Validators.required],
+      type: ['', Validators.required]
     });
   }
 
   private initUpdateForm() {
-    this.application$ = this.route.params.pipe(
+    this.game$ = this.route.params.pipe(
       tap(params => {
-          this.currentGameId = +params['id'];
+          this.currentGameId = params['id'];
         }
       ),
-      switchMap(params => this.applicationsService.getApplicationById(+params['id']))
+      switchMap(params => this.gamesService.getGameById(params['id']))
     );
-    this.application$.pipe(
-      tap((application) => {
+    this.game$.pipe(
+      tap((game) => {
         this.mainForm = this.formBuilder.group({
-          company: [application.company, Validators.required],
-          address: [application.address, Validators.required],
-          contactType: [application.contactType, Validators.required],
-          contact: [application.contact, Validators.required],
-          message: [application.message, Validators.required],
-          sector: [application.sector, Validators.required],
-          commentary: [application.commentary === undefined ? '' : application.commentary],
-          answer: [application.answer, Validators.required]
+          name: [game.nom, Validators.required],
+          type: [game.type, Validators.required],
         });
-        this.currentApplicationCompany = application.company;
       })
     ).subscribe();
   }
 
-  private saveApplication() {
-    let newApplication : Application = {
+  private saveGame() {
+    let newGame : Game = {
       ...this.mainForm.value,
-      id: this.applicationsService.maxId+1,
-      answer: 'Aucune'
     }
-    this.formService.saveApplication(newApplication).pipe(
+    this.formService.saveGame(newGame).pipe(
       tap(saved => {
         this.loading = false;
         if (saved) {
@@ -125,12 +106,12 @@ export class GameFormComponent implements OnInit {
     ).subscribe();
   }
 
-  private updateApplication() {
-    let updatedModel : Application = {
+  private updateGame() {
+    let updatedGame : Game = {
       ...this.mainForm.value,
-      id: this.currentGameId,
+      _id: this.currentGameId,
     }
-    this.applicationsService.updateApplication(this.currentGameId, updatedModel).pipe(
+    this.gamesService.updateGame(this.currentGameId, updatedGame).pipe(
       tap(saved => {
         this.loading = false;
         if (saved) {
