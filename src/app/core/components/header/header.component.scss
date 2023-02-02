@@ -1,4 +1,4 @@
-@import 'src/assets/colors.scss';
+@import '../../../../assets/styles/colors';
 
 ul {
   list-style: none;
@@ -15,4 +15,14 @@ li {
 
 .active {
   color: $color-accent;
+}
+
+.home-link {
+  height: 100%;
+  display: flex;
+}
+
+.logo {
+  margin: auto;
+  height: 80%;
 }
