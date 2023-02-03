@@ -123,7 +123,11 @@ export class GameFormComponent implements OnInit {
   }
 
   onGoBack() {
-    this.router.navigateByUrl(`/games/${this.currentGameId}`)
+    if (this.router.url === "/games/add") {
+      this.router.navigateByUrl('/games')
+    } else {
+      this.router.navigateByUrl(`/games/${this.currentGameId}`)
+    }
   }
 
 }
