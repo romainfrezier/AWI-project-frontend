@@ -1,0 +1,52 @@
+<mat-card [formGroup]="mainForm" class="main-form">
+
+  <mat-card-title *ngIf="!currentVolunteerId">Ajouter un bénévole</mat-card-title>
+  <mat-card-title *ngIf="currentVolunteerId">Modifier le bénévole</mat-card-title>
+
+  <mat-card class="form-card">
+    <mat-card-subtitle>Nom</mat-card-subtitle>
+    <div class="form-row">
+      <mat-form-field appearance="fill">
+        <mat-label>Nom</mat-label>
+        <input type="text" matInput formControlName="nom">
+        <mat-error>Ce champ est requis</mat-error>
+      </mat-form-field>
+    </div>
+  </mat-card>
+
+  <mat-card class="form-card">
+    <mat-card-subtitle>Prénom</mat-card-subtitle>
+    <div class="form-row">
+      <mat-form-field appearance="fill">
+        <mat-label>Prénom</mat-label>
+        <input type="text" matInput formControlName="prenom">
+        <mat-error>Ce champ est requis</mat-error>
+      </mat-form-field>
+    </div>
+  </mat-card>
+
+  <mat-card class="form-card">
+    <mat-card-subtitle>Email</mat-card-subtitle>
+    <div class="form-row">
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input type="text" matInput formControlName="email">
+        <mat-error>Ce champ est requis</mat-error>
+      </mat-form-field>
+    </div>
+  </mat-card>
+
+
+  <mat-card-actions *ngIf="mainForm.valid">
+    <button *ngIf="!currentVolunteerId" mat-flat-button color="primary" (click)="onSubmitForm()" [disabled]="loading" matTooltip="Enregister le nouveau bénévole" matTooltipPosition="left">
+      <mat-icon class="btn_icon">save</mat-icon>
+    </button>
+    <button *ngIf="currentVolunteerId" mat-flat-button color="primary" (click)="onSubmitForm()" [disabled]="loading" matTooltip="Sauvegarder le bénévole" matTooltipPosition="left">
+      <mat-icon class="btn_icon">save</mat-icon>
+    </button>
+  </mat-card-actions>
+  <button mat-flat-button color="primary" (click)="onGoBack()" [disabled]="loading" matTooltip="Retour" matTooltipPosition="right">
+    <mat-icon class="btn_icon">arrow_back</mat-icon>
+  </button>
+  <mat-spinner class="spinner" *ngIf="loading" color="primary" mode="indeterminate"></mat-spinner>
+</mat-card>

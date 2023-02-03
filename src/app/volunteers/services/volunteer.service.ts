@@ -70,7 +70,7 @@ export class VolunteersService {
     ).subscribe();
   }
 
-  updateVolunteer(id: number, updatedVolunteer: Volunteer) {
+  updateVolunteer(id: string, updatedVolunteer: Volunteer) {
     return this.http.patch(`${environment.apiUrl}/volunteers/${id}`, updatedVolunteer).pipe(
       mapTo(true),
       delay(1000),
