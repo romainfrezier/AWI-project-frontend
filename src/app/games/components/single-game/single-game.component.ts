@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Observable, switchMap, take, tap} from "rxjs";
+import {Observable, Subscription, switchMap, take, tap} from "rxjs";
 import {Game} from "../../models/game.model";
 import {GamesService} from "../../services/game.service";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, NavigationStart, Router} from "@angular/router";
 
 @Component({
   selector: 'app-single-game',
@@ -14,18 +14,18 @@ export class SingleGameComponent implements OnInit {
   loading$!: Observable<boolean>;
   game$!: Observable<Game>;
 
-  constructor(private applicationsService: GamesService,
+  constructor(private gamesService: GamesService,
               private route: ActivatedRoute,
-              private router: Router) { }
+              private router: Router) {}
 
   ngOnInit(): void {
     this.initObservables();
   }
 
   private initObservables() {
-    this.loading$ = this.applicationsService.loading$;
+    this.loading$ = this.gamesService.loading$;
     this.game$ = this.route.params.pipe(
-      switchMap(params => this.applicationsService.getGameById(params['id']))
+      switchMap(params => this.gamesService.getGameById(params['id']))
     );
   }
 
@@ -34,7 +34,7 @@ export class SingleGameComponent implements OnInit {
       this.game$.pipe(
         take(1),
         tap(game => {
-          this.applicationsService.removeGame(game._id);
+          this.gamesService.removeGame(game._id);
           this.onGoBack();
         })
       ).subscribe();
@@ -44,8 +44,8 @@ export class SingleGameComponent implements OnInit {
   onUpdate() {
     this.game$.pipe(
       take(1),
-      tap(application => {
-        this.router.navigateByUrl(`games/update/${application._id}`)
+      tap(game => {
+        this.router.navigateByUrl(`games/update/${game._id}`)
       })
     ).subscribe();
   }
