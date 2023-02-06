@@ -5,6 +5,8 @@ import {Router} from "@angular/router";
 import {Assignment} from "../../models/assignment.model";
 import {AssignmentService} from "../../services/assignment.service";
 import {AssignmentSearchType} from "../../enums/assignment-search-type.enum";
+import {Area} from "../../models/area.model";
+import {Hours} from "../../enums/hours.enum";
 
 @Component({
   selector: 'app-assignments-list',
@@ -14,6 +16,8 @@ import {AssignmentSearchType} from "../../enums/assignment-search-type.enum";
 export class AssignmentsListComponent implements OnInit {
   loading$!: Observable<boolean>;
   assignments$!: Observable<Assignment[]>
+  areas$!: Observable<Area[]>;
+  hours!: Hours[];
   searchCtrl!: FormControl;
   searchTypeCtrl!: FormControl;
   searchTypeOptions!: {
@@ -55,7 +59,7 @@ export class AssignmentsListComponent implements OnInit {
     ).pipe(
       map(([search, searchType, assignments]) => assignments.filter(assignment => {
         if (searchType === AssignmentSearchType.VOLUNTEER) {
-          return assignment[searchType].prenom.toLowerCase().includes(search as string) || assignment[searchType].nom.toLowerCase().includes(search as string)
+          return assignment[searchType].prenom.toLowerCase().includes(search as string) || assignment[searchType].nom.toLowerCase().includes(search as string) || (assignment[searchType].prenom.toLowerCase() + " " + assignment[searchType].nom.toLowerCase()).includes(search as string)
         } else {
           return assignment[searchType].nom
             .toLowerCase()
@@ -71,7 +75,7 @@ export class AssignmentsListComponent implements OnInit {
   }
 
   onNewAssignment() {
-    this.router.navigateByUrl("/assignment/add")
+    this.router.navigateByUrl("/assignments/add")
   }
 
 }

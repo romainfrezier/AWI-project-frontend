@@ -6,10 +6,6 @@ import {environment} from "../../../environments/environment.prod";
 
 @Injectable()
 export class GameFormService {
-  private _applications$ = new BehaviorSubject<Game[]>([]);
-  get applications$(): Observable<Game[]> {
-    return this._applications$.asObservable();
-  }
 
   constructor(private http: HttpClient) {}
 

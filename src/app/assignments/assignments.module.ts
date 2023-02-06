@@ -6,6 +6,7 @@ import {AssignmentRoutingModule} from "./assignment-routing.module";
 import {AssignmentService} from "./services/assignment.service";
 import { SingleAssignmentComponent } from './components/single-assignment/single-assignment.component';
 import { AssignmentFormComponent } from './components/assignment-form/assignment-form.component';
+import {AssignmentFormService} from "./services/assignment-form.service";
 
 
 
@@ -21,7 +22,8 @@ import { AssignmentFormComponent } from './components/assignment-form/assignment
     AssignmentRoutingModule
   ],
   providers: [
-    AssignmentService
+    AssignmentService,
+    AssignmentFormService
   ]
 })
 export class AssignmentsModule { }

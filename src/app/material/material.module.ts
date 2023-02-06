@@ -11,6 +11,9 @@ import {MatInputModule} from "@angular/material/input";
 import {MatRadioModule} from "@angular/material/radio";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatSelectModule} from "@angular/material/select";
+import {MatAutocompleteModule} from "@angular/material/autocomplete";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
 
 @NgModule({
   exports: [
@@ -25,7 +28,12 @@ import {MatSelectModule} from "@angular/material/select";
     MatRadioModule,
     MatProgressSpinnerModule,
     MatSelectModule,
-    MatTooltipModule
-  ],
+    MatTooltipModule,
+    MatAutocompleteModule,
+    MatDatepickerModule,
+    MatNativeDateModule
+  ], providers: [
+    MatDatepickerModule
+  ]
 })
 export class MaterialModule {}

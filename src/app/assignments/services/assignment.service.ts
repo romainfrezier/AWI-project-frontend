@@ -21,6 +21,16 @@ export class AssignmentService {
     return this._assignments$.asObservable();
   }
 
+  private _volunteer$ = new BehaviorSubject<Volunteer[]>([]);
+  get volunteer$(): Observable<Volunteer[]> {
+    return this._volunteer$.asObservable();
+  }
+
+  private _game$ = new BehaviorSubject<Game[]>([]);
+  get game$(): Observable<Game[]> {
+    return this._game$.asObservable();
+  }
+
   private setLoadingStatus(loading: boolean) {
     this._loading$.next(loading);
   }
@@ -53,7 +63,7 @@ export class AssignmentService {
     return this.http.get<Area>(`${environment.apiUrl}/areas/${id}`);
   }
 
-  getAssignmentGame(id: string): Observable<Game> {
+  getAssignmentGame(id: string) {
     return this.http.get<Game>(`${environment.apiUrl}/games/${id}`);
   }
 
@@ -79,6 +89,7 @@ export class AssignmentService {
   updateAssignment(id: string, updatedAssignment: Assignment) {
     return this.http.put(`${environment.apiUrl}/assignments/${id}`, updatedAssignment).pipe(
       mapTo(true),
+      tap(() => { this.setLoadingStatus(false); }),
       catchError(() => of(false).pipe())
     );
   }

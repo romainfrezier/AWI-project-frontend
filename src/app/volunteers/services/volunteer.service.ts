@@ -18,8 +18,6 @@ export class VolunteersService {
     return this._volunteers$.asObservable();
   }
 
-  private lastVolunteersLoad = 0;
-
   private setLoadingStatus(loading: boolean) {
     this._loading$.next(loading);
   }
@@ -36,10 +34,8 @@ export class VolunteersService {
     };
 
     this.http.get<Volunteer[]>(`${environment.apiUrl}/volunteers`).pipe(
-      delay(1000),
       map(volunteers => volunteers.sort(compareFn)),
       tap(volunteers => {
-        this.lastVolunteersLoad = Date.now();
         this._volunteers$.next(volunteers);
         this.setLoadingStatus(false);
       })
@@ -47,9 +43,6 @@ export class VolunteersService {
   }
 
   getVolunteerById(id: string): Observable<Volunteer> {
-    if (!this.lastVolunteersLoad) {
-      this.getVolunteersFromServer();
-    }
     return this.volunteers$.pipe(
       map(volunteers => volunteers.filter(volunteer => volunteer._id === id)[0])
     );
@@ -59,7 +52,6 @@ export class VolunteersService {
   removeVolunteer(id: string) {
     this.setLoadingStatus(true);
     this.http.delete(`${environment.apiUrl}/volunteers/${id}`).pipe(
-      delay(1000),
       switchMap(() => this.volunteers$),
       take(1),
       map(volunteers => volunteers.filter(volunteer => volunteer._id !== id)),
@@ -73,10 +65,7 @@ export class VolunteersService {
   updateVolunteer(id: string, updatedVolunteer: Volunteer) {
     return this.http.patch(`${environment.apiUrl}/volunteers/${id}`, updatedVolunteer).pipe(
       mapTo(true),
-      delay(1000),
-      catchError(() => of(false).pipe(
-        delay(1000)
-      ))
+      catchError(() => of(false))
     );
   }
 }

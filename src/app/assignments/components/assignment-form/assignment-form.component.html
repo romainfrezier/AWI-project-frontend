@@ -1,1 +1,94 @@
-<p>assignment-form works!</p>
+<mat-card [formGroup]="mainForm" class="main-form">
+
+  <mat-card-title *ngIf="!currentAssignmentId">Ajouter une affectation</mat-card-title>
+  <mat-card-title *ngIf="currentAssignmentId">Modifier l'affectation</mat-card-title>
+
+  <mat-card class="form-card">
+    <mat-card-subtitle>Bénévole</mat-card-subtitle>
+    <div class="form-row">
+      <mat-form-field appearance="fill">
+        <mat-label>Bénévole</mat-label>
+        <mat-select *ngIf="volunteersOptions" (selectionChange)="updateVolunteer($event.value)" formControlName="benevole">
+          <mat-option *ngFor="let volunteer of volunteersOptions" [value]="volunteer">
+            {{ volunteer.nom | uppercase }} {{ volunteer.prenom | titlecase }}
+          </mat-option>
+        </mat-select>
+        <mat-error>Ce champ est requis</mat-error>
+      </mat-form-field>
+    </div>
+  </mat-card>
+
+  <mat-card class="form-card">
+    <mat-card-subtitle>Jeu</mat-card-subtitle>
+    <div class="form-row">
+      <mat-form-field appearance="fill">
+        <mat-label>Jeu</mat-label>
+        <mat-select *ngIf="gamesOptions" (selectionChange)="updateGame($event.value)" formControlName="jeu">
+          <mat-option *ngFor="let game of gamesOptions" [value]="game">
+            {{ game.nom | uppercase }} - {{ game.type | titlecase }}
+          </mat-option>
+        </mat-select>
+        <mat-error>Ce champ est requis</mat-error>
+      </mat-form-field>
+    </div>
+  </mat-card>
+
+  <mat-card class="form-card">
+    <mat-card-subtitle>Zone</mat-card-subtitle>
+    <div class="form-row">
+      <mat-form-field appearance="fill">
+        <mat-label>Zone</mat-label>
+        <mat-select *ngIf="areasOptions" (selectionChange)="updateArea($event.value)" formControlName="zone">
+          <mat-option *ngFor="let area of areasOptions" [value]="area">
+            {{ area.nom | uppercase }}
+          </mat-option>
+        </mat-select>
+        <mat-error>Ce champ est requis</mat-error>
+      </mat-form-field>
+    </div>
+  </mat-card>
+
+  <mat-card class="form-card">
+    <mat-card-subtitle>Horaires</mat-card-subtitle>
+    <div class="form-row">
+      <mat-form-field appearance="fill">
+        <mat-label>Jour</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="date_deb">
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error>Ce champ est requis</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Heure début</mat-label>
+        <mat-select *ngIf="hoursOptions" formControlName="heure_deb">
+          <mat-option *ngFor="let hour of hoursOptions" [value]="hour">
+            {{ hour }}
+          </mat-option>
+        </mat-select>
+        <mat-error>Ce champ est requis</mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Heure fin</mat-label>
+        <mat-select *ngIf="hoursOptions" formControlName="heure_fin">
+          <mat-option *ngFor="let hour of hoursOptions" [value]="hour">
+            {{ hour }}
+          </mat-option>
+        </mat-select>
+        <mat-error>Ce champ est requis</mat-error>
+      </mat-form-field>
+    </div>
+  </mat-card>
+
+  <mat-card-actions *ngIf="mainForm.valid">
+    <button *ngIf="!currentAssignmentId" mat-flat-button color="primary" (click)="onSubmitForm()" [disabled]="loading$ | async" matTooltip="Enregister le nouveau jeu" matTooltipPosition="left">
+      <mat-icon class="btn_icon">save</mat-icon>
+    </button>
+    <button *ngIf="currentAssignmentId" mat-flat-button color="primary" (click)="onSubmitForm()" [disabled]="loading$ | async" matTooltip="Sauvegarder le jeu" matTooltipPosition="left">
+      <mat-icon class="btn_icon">save</mat-icon>
+    </button>
+  </mat-card-actions>
+  <button mat-flat-button color="primary" (click)="onGoBack()" [disabled]="loading$ | async" matTooltip="Retour" matTooltipPosition="right">
+    <mat-icon class="btn_icon">arrow_back</mat-icon>
+  </button>
+  <mat-spinner class="spinner" *ngIf="loading$ | async" color="primary" mode="indeterminate"></mat-spinner>
+</mat-card>

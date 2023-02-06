@@ -34,6 +34,16 @@
         <p>Fin : {{ assignment.date_fin | date: "dd/MM/yyyy 'à' HH'h'mm" }}</p>
       </mat-card-content>
     </mat-card>
+    <mat-card class="info-group">
+      <mat-card-header>
+        <mat-card-title>
+          <h1>Zone</h1>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>{{ assignment.zone.nom }}</p>
+      </mat-card-content>
+    </mat-card>
   </ng-container>
   <mat-card-actions>
     <mat-spinner *ngIf="loading$ | async; else buttons" class="spinner"></mat-spinner>
