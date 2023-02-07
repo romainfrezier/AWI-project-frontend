@@ -1,4 +1,4 @@
-<mat-card [formGroup]="mainForm" class="main-form">
+<mat-card [formGroup]="mainForm" class="main-form" xmlns="http://www.w3.org/1999/html">
 
   <mat-card-title *ngIf="!currentAssignmentId">Ajouter une affectation</mat-card-title>
   <mat-card-title *ngIf="currentAssignmentId">Modifier l'affectation</mat-card-title>
@@ -8,8 +8,8 @@
     <div class="form-row">
       <mat-form-field appearance="fill">
         <mat-label>Bénévole</mat-label>
-        <mat-select *ngIf="volunteersOptions" (selectionChange)="updateVolunteer($event.value)" formControlName="benevole">
-          <mat-option *ngFor="let volunteer of volunteersOptions" [value]="volunteer">
+        <mat-select *ngIf="volunteersOptions$ | async as volunteers" (selectionChange)="updateVolunteer($event.value)" formControlName="benevole">
+          <mat-option *ngFor="let volunteer of volunteers" [value]="volunteer">
             {{ volunteer.nom | uppercase }} {{ volunteer.prenom | titlecase }}
           </mat-option>
         </mat-select>
@@ -23,8 +23,8 @@
     <div class="form-row">
       <mat-form-field appearance="fill">
         <mat-label>Jeu</mat-label>
-        <mat-select *ngIf="gamesOptions" (selectionChange)="updateGame($event.value)" formControlName="jeu">
-          <mat-option *ngFor="let game of gamesOptions" [value]="game">
+        <mat-select *ngIf="gamesOptions$ | async as games" (selectionChange)="updateGame($event.value)" formControlName="jeu">
+          <mat-option *ngFor="let game of games" [value]="game">
             {{ game.nom | uppercase }} - {{ game.type | titlecase }}
           </mat-option>
         </mat-select>
@@ -38,8 +38,8 @@
     <div class="form-row">
       <mat-form-field appearance="fill">
         <mat-label>Zone</mat-label>
-        <mat-select *ngIf="areasOptions" (selectionChange)="updateArea($event.value)" formControlName="zone">
-          <mat-option *ngFor="let area of areasOptions" [value]="area">
+        <mat-select *ngIf="areasOptions$ | async as areas" (selectionChange)="updateArea($event.value)" formControlName="zone">
+          <mat-option *ngFor="let area of areas" [value]="area">
             {{ area.nom | uppercase }}
           </mat-option>
         </mat-select>
@@ -51,13 +51,15 @@
   <mat-card class="form-card">
     <mat-card-subtitle>Horaires</mat-card-subtitle>
     <div class="form-row">
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" class="date-picker">
         <mat-label>Jour</mat-label>
         <input matInput [matDatepicker]="picker" formControlName="date">
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
         <mat-error>Ce champ est requis</mat-error>
       </mat-form-field>
+    </div>
+    <div class="form-row">
       <mat-form-field appearance="fill" [formGroup]="hoursForm">
         <mat-label>Heure début</mat-label>
         <mat-select *ngIf="hoursOptions" formControlName="heure_deb">

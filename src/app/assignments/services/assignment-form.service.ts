@@ -55,6 +55,15 @@ export class AssignmentFormService {
         ).subscribe();
     }
 
+    getArea(id: string): Area {
+        let area: Area | undefined;
+        this.getAreasFromServer();
+        this._areas$.subscribe(areas => {
+            area = areas.find(a => a._id === id);
+        });
+        return area!;
+    }
+
     getVolunteersFromServer() {
         this.setLoadingStatus(true);
         this.http.get<Volunteer[]>(`${environment.apiUrl}/volunteers`).pipe(
@@ -65,6 +74,15 @@ export class AssignmentFormService {
         ).subscribe();
     }
 
+    getVolunteer(id: string): Volunteer {
+        let volunteer: Volunteer | undefined;
+        this.getVolunteersFromServer();
+        this._volunteers$.subscribe(volunteers => {
+            volunteer = volunteers.find(v => v._id === id);
+        });
+        return volunteer!;
+    }
+
     getGamesFromServer() {
         this.setLoadingStatus(true);
         this.http.get<Game[]>(`${environment.apiUrl}/games`).pipe(
@@ -73,5 +91,14 @@ export class AssignmentFormService {
             this.setLoadingStatus(false);
           })
         ).subscribe();
+    }
+
+    getGame(id: string): Game {
+        let game: Game | undefined;
+        this.getGamesFromServer();
+        this._games$.subscribe(games => {
+            game = games.find(g => g._id === id);
+        });
+        return game!;
     }
 }

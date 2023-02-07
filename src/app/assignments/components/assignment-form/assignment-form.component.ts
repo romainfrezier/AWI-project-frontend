@@ -51,13 +51,13 @@ export class AssignmentFormComponent implements OnInit {
   hoursOptions!: Hours[];
   selectedHours!: Hours;
 
-  volunteersOptions!: Volunteer[];
+  volunteersOptions$!: Observable<Volunteer[]>;
   selectedVolunteer!: Volunteer;
 
-  areasOptions!: Area[];
+  areasOptions$!: Observable<Area[]>;
   selectedArea!: Area;
 
-  gamesOptions!: Game[];
+  gamesOptions$!: Observable<Game[]>;
   selectedGame!: Game;
 
   assignment$!: Observable<Assignment>;
@@ -75,7 +75,7 @@ export class AssignmentFormComponent implements OnInit {
   }
 
   private initMainForm(): void {
-    if (this.router.url === "/games/add") {
+    if (this.router.url === "/assignments/add") {
       this.initAddForm();
     } else {
       this.initUpdateForm();
@@ -102,27 +102,9 @@ export class AssignmentFormComponent implements OnInit {
     this.formService.getVolunteersFromServer();
     this.formService.getAreasFromServer();
     this.formService.getGamesFromServer();
-    let volunteersOptions$ = this.formService.volunteers$;
-    let areasOptions$ = this.formService.areas$;
-    let gamesOptions$ = this.formService.games$;
-    volunteersOptions$.pipe(
-      tap((volunteers) => {
-        this.volunteersOptions = volunteers;
-        this.volunteersOptions.sort((a, b) => a.nom.localeCompare(b.nom));
-      })
-    ).subscribe();
-    areasOptions$.pipe(
-      tap((areas) => {
-        this.areasOptions = areas;
-        this.areasOptions.sort((a, b) => a.nom.localeCompare(b.nom));
-      })
-    ).subscribe();
-    gamesOptions$.pipe(
-      tap((games) => {
-        this.gamesOptions = games;
-        this.gamesOptions.sort((a, b) => a.nom.localeCompare(b.nom));
-      })
-    ).subscribe();
+    this.volunteersOptions$ = this.formService.volunteers$;
+    this.areasOptions$ = this.formService.areas$;
+    this.gamesOptions$ = this.formService.games$;
   }
 
   private initAddForm() {
@@ -151,25 +133,39 @@ export class AssignmentFormComponent implements OnInit {
       ),
       switchMap(params => this.assignmentService.getAssignmentById(params['id']))
     );
-    this.assignment$.pipe(
-      tap((game) => {
-        this.mainForm = this.formBuilder.group({
-          zone: [this.selectedArea, Validators.required],
-          date: ['', Validators.required],
-          jeu: [this.selectedGame, Validators.required],
-          benevole: [this.selectedVolunteer, Validators.required],
-        });
-        this.startHourCtrl = this.formBuilder.control('', Validators.required);
-        this.endHourCtrl = this.formBuilder.control('', Validators.required);
-        this.hoursForm = this.formBuilder.group({
-          heure_deb: this.startHourCtrl,
-          heure_fin: this.endHourCtrl,
-        }, {
-          validators: [hoursValidator('heure_deb', 'heure_fin')],
-          updateOn: 'blur'
-        });
-      })
-    ).subscribe();
+    this.initAddForm();
+    this.assignment$.subscribe((assignment: Assignment) => {
+      console.log(assignment)
+      this.selectedArea = this.formService.getArea(assignment.zone._id);
+      this.selectedGame = this.formService.getGame(assignment.jeu._id);
+      this.selectedVolunteer = this.formService.getVolunteer(assignment.benevole._id);
+      this.mainForm.patchValue({
+        zone: this.selectedArea,
+        date: assignment.date_deb,
+        jeu: this.selectedGame,
+        benevole: this.selectedVolunteer,
+      });
+      let date_deb = new Date(assignment.date_deb);
+      let date_fin = new Date(assignment.date_fin);
+      let h_deb : string;
+      let h_fin : string;
+      if (date_deb.getMinutes() != 0) {
+        h_deb = date_deb.getHours().toString() + "h" + date_deb.getMinutes().toString();
+      } else {
+        h_deb = date_deb.getHours().toString() + "h";
+      }
+      if (date_fin.getMinutes() != 0) {
+        h_fin = date_fin.getHours().toString() + "h" + date_fin.getMinutes().toString();
+      } else {
+        h_fin = date_fin.getHours().toString() + "h";
+      }
+      this.hoursForm.patchValue({
+        heure_deb: h_deb,
+        heure_fin: h_fin,
+      });
+      console.log(this.mainForm.value);
+      console.log(this.hoursForm.value);
+    });
   }
 
   getFormCtrlErrorText(ctrl: AbstractControl) : string {
@@ -203,8 +199,8 @@ export class AssignmentFormComponent implements OnInit {
   }
 
   private updateAssignment() {
-    let buildDate_deb : Date = this.buildDate(this.mainForm.value.date_deb, this.mainForm.value.heure_deb);
-    let buildDate_fin : Date = this.buildDate(this.mainForm.value.date_fin, this.mainForm.value.heure_fin);
+    let buildDate_deb : Date = this.buildDate(this.mainForm.value.date, this.hoursForm.value.heure_deb);
+    let buildDate_fin : Date = this.buildDate(this.mainForm.value.date, this.hoursForm.value.heure_fin);
     let updatedAssignment : Assignment = {
       ...this.mainForm.value,
       date_deb: buildDate_deb,
@@ -222,21 +218,21 @@ export class AssignmentFormComponent implements OnInit {
   }
 
   updateArea(area: Area) {
-    this.selectedArea = area;
+      this.selectedArea = area;
   }
 
-  updateGame(game : Game) {
-    this.selectedGame = game;
+  updateGame(game: Game) {
+      this.selectedGame = game;
   }
 
   updateVolunteer(volunteer : Volunteer) {
-    this.selectedVolunteer = volunteer;
+      this.selectedVolunteer = volunteer;
   }
 
   private buildDate(date_deb : Date, heure_deb: string) : Date {
     let date_deb_split = new Date(date_deb).toLocaleDateString().split("/");
     let heure_deb_split = heure_deb.split("h");
-    return new Date(parseInt(date_deb_split[2]), parseInt(date_deb_split[1]), parseInt(date_deb_split[0]), parseInt(heure_deb_split[0]), parseInt(heure_deb_split[1]) ? parseInt(heure_deb_split[1]) : 0);
+    return new Date(parseInt(date_deb_split[2]), parseInt(date_deb_split[1]) - 1, parseInt(date_deb_split[0]), parseInt(heure_deb_split[0]), parseInt(heure_deb_split[1]) ? parseInt(heure_deb_split[1]) : 0);
   }
 
   onGoBack() {

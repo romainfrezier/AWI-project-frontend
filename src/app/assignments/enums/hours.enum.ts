@@ -47,11 +47,8 @@ export enum Hours {
   H22_30 = '22h30',
   H23 = '23h',
   H23_30 = '23h30',
-
 }
 
 export function getHours(): Hours[] {
-  let hoursEnum = Object.values(Hours);
-  console.log(hoursEnum);
-  return hoursEnum
+  return Object.values(Hours)
 }
