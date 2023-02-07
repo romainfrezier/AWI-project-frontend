@@ -53,28 +53,28 @@
     <div class="form-row">
       <mat-form-field appearance="fill">
         <mat-label>Jour</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="date_deb">
+        <input matInput [matDatepicker]="picker" formControlName="date">
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
         <mat-error>Ce champ est requis</mat-error>
       </mat-form-field>
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" [formGroup]="hoursForm">
         <mat-label>Heure début</mat-label>
         <mat-select *ngIf="hoursOptions" formControlName="heure_deb">
           <mat-option *ngFor="let hour of hoursOptions" [value]="hour">
             {{ hour }}
           </mat-option>
         </mat-select>
-        <mat-error>Ce champ est requis</mat-error>
+        <mat-error>Ce champs est requis</mat-error>
       </mat-form-field>
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" [formGroup]="hoursForm">
         <mat-label>Heure fin</mat-label>
         <mat-select *ngIf="hoursOptions" formControlName="heure_fin">
           <mat-option *ngFor="let hour of hoursOptions" [value]="hour">
             {{ hour }}
           </mat-option>
         </mat-select>
-        <mat-error>Ce champ est requis</mat-error>
+        <mat-error>{{ getFormCtrlErrorText(endHourCtrl) }}</mat-error>
       </mat-form-field>
     </div>
   </mat-card>

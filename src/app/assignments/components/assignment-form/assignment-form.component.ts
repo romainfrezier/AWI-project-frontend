@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Observable, switchMap, tap} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 import {AssignmentFormService} from "../../services/assignment-form.service";
@@ -11,6 +11,7 @@ import {Area} from "../../models/area.model";
 import {Game} from "../../../games/models/game.model";
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material/core";
+import {hoursValidator} from "../../validators/hours.validator";
 
 export const MY_FORMATS = {
   parse: {
@@ -43,6 +44,9 @@ export class AssignmentFormComponent implements OnInit {
   loading$! : Observable<boolean>;
 
   mainForm!: FormGroup;
+  hoursForm!: FormGroup;
+  startHourCtrl!: FormControl;
+  endHourCtrl!: FormControl;
 
   hoursOptions!: Hours[];
   selectedHours!: Hours;
@@ -89,6 +93,7 @@ export class AssignmentFormComponent implements OnInit {
 
   private resetForm(){
     this.mainForm.reset();
+    this.hoursForm.reset();
   }
 
   private initOptions() {
@@ -123,11 +128,18 @@ export class AssignmentFormComponent implements OnInit {
   private initAddForm() {
     this.mainForm = this.formBuilder.group({
       zone: [this.selectedArea, Validators.required],
-      date_deb: ['', Validators.required],
-      heure_deb: ['', Validators.required],
-      heure_fin: ['', Validators.required],
+      date: ['', Validators.required],
       jeu: [this.selectedGame, Validators.required],
       benevole: [this.selectedVolunteer, Validators.required],
+    });
+    this.startHourCtrl = this.formBuilder.control('', Validators.required);
+    this.endHourCtrl = this.formBuilder.control('', Validators.required);
+    this.hoursForm = this.formBuilder.group({
+      heure_deb: this.startHourCtrl,
+      heure_fin: this.endHourCtrl,
+    }, {
+      validators: [hoursValidator('heure_deb', 'heure_fin')],
+      updateOn: 'blur'
     });
   }
 
@@ -143,19 +155,36 @@ export class AssignmentFormComponent implements OnInit {
       tap((game) => {
         this.mainForm = this.formBuilder.group({
           zone: [this.selectedArea, Validators.required],
-          date_deb: ['', Validators.required],
-          heure_deb: ['', Validators.required],
-          heure_fin: ['', Validators.required],
+          date: ['', Validators.required],
           jeu: [this.selectedGame, Validators.required],
           benevole: [this.selectedVolunteer, Validators.required],
+        });
+        this.startHourCtrl = this.formBuilder.control('', Validators.required);
+        this.endHourCtrl = this.formBuilder.control('', Validators.required);
+        this.hoursForm = this.formBuilder.group({
+          heure_deb: this.startHourCtrl,
+          heure_fin: this.endHourCtrl,
+        }, {
+          validators: [hoursValidator('heure_deb', 'heure_fin')],
+          updateOn: 'blur'
         });
       })
     ).subscribe();
   }
 
+  getFormCtrlErrorText(ctrl: AbstractControl) : string {
+    if (ctrl.hasError('required')){
+      return "Ce champs est requis";
+    } else if (ctrl.hasError('hoursValidator')) {
+      return ctrl.getError('hoursValidator');
+    } else {
+      return "Il y a une erreur";
+    }
+  }
+
   private saveAssignment() {
-    let buildDate_deb : Date = this.buildDate(this.mainForm.value.date_deb, this.mainForm.value.heure_deb);
-    let buildDate_fin : Date = this.buildDate(this.mainForm.value.date_deb, this.mainForm.value.heure_fin);
+    let buildDate_deb : Date = this.buildDate(this.mainForm.value.date, this.hoursForm.value.heure_deb);
+    let buildDate_fin : Date = this.buildDate(this.mainForm.value.date, this.hoursForm.value.heure_fin);
     let newAssignment : Assignment = {
       ...this.mainForm.value,
       date_deb: buildDate_deb,
