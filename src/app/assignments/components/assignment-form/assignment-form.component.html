@@ -60,7 +60,7 @@
       </mat-form-field>
     </div>
     <div class="form-row">
-      <mat-form-field appearance="fill" [formGroup]="hoursForm">
+      <mat-form-field appearance="fill" [formGroup]="hoursForm" class="hours-select">
         <mat-label>Heure début</mat-label>
         <mat-select *ngIf="hoursOptions" formControlName="heure_deb">
           <mat-option *ngFor="let hour of hoursOptions" [value]="hour">
@@ -69,7 +69,7 @@
         </mat-select>
         <mat-error>Ce champs est requis</mat-error>
       </mat-form-field>
-      <mat-form-field appearance="fill" [formGroup]="hoursForm">
+      <mat-form-field appearance="fill" [formGroup]="hoursForm" class="hours-select">
         <mat-label>Heure fin</mat-label>
         <mat-select *ngIf="hoursOptions" formControlName="heure_fin">
           <mat-option *ngFor="let hour of hoursOptions" [value]="hour">

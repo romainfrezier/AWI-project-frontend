@@ -9,7 +9,7 @@ a {
   text-decoration: none;
   font-weight: normal;
   &:hover {
-    text-decoration: underline;
+    border-bottom: white thin solid;
   }
 }
 

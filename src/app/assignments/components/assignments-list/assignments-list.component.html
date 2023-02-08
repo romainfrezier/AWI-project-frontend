@@ -41,7 +41,7 @@
     <mat-nav-list *ngIf="assignments$ | async as assignments">
       <a *ngFor="let assigment of assignments" mat-list-item [routerLink]="assigment._id.toString()">
         <h1 matLine class="name" >
-          {{ assigment.benevole.prenom | uppercase }} {{ assigment.benevole.nom | uppercase }} - {{ assigment.jeu.nom | uppercase }}
+          {{ assigment.benevole.nom | uppercase }} {{ assigment.benevole.prenom | titlecase }} - {{ assigment.jeu.nom | uppercase }}
         </h1>
         <p matLine class="date">
           {{ assigment.date_deb | date: "dd/MM/yyyy 'à' HH'h'mm" }} au {{ assigment.date_fin | date: "dd/MM/yyyy 'à' HH'h'mm" }}
