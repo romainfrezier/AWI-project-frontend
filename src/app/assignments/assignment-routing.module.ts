@@ -8,6 +8,8 @@ const routes: Routes = [
   { path: '', component: AssignmentsListComponent },
   { path: 'add', component: AssignmentFormComponent},
   { path: 'update/:id', component: AssignmentFormComponent},
+  { path: 'areas', component: AssignmentsListComponent},
+  { path: 'hours', component: AssignmentsListComponent},
   { path: ':id', component: SingleAssignmentComponent}
 ];
 

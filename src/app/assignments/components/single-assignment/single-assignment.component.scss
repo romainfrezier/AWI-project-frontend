@@ -13,7 +13,7 @@ button {
 .separator {
   margin: 15px auto;
   width: 90%;
-  border-bottom: lightgray thin solid;
+  border-bottom: $color-accent thin solid;
 }
 
 mat-card-content {

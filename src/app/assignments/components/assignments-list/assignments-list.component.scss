@@ -10,22 +10,27 @@
 }
 
 .name {
-  color: white;
+  color: $color-accent;
 }
 
 .date {
-  color: white;
+  color: $color-accent;
 }
 
 div {
-  border-bottom: lightgray thin solid;
+  border-bottom: $color-accent thin solid;
 }
 
 .form {
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.form-fields {
+  width: 95%;
 }
 
-.form > mat-form-field {
+.form-fields > mat-form-field {
   width: 50%;
 }
 

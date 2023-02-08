@@ -82,10 +82,10 @@
   </mat-card>
 
   <mat-card-actions *ngIf="mainForm.valid">
-    <button *ngIf="!currentAssignmentId" mat-flat-button color="primary" (click)="onSubmitForm()" [disabled]="loading$ | async" matTooltip="Enregister le nouveau jeu" matTooltipPosition="left">
+    <button *ngIf="!currentAssignmentId" mat-flat-button color="primary" (click)="onSubmitForm()" [disabled]="loading$ | async" matTooltip="Enregister la nouvelle affectation" matTooltipPosition="left">
       <mat-icon class="btn_icon">save</mat-icon>
     </button>
-    <button *ngIf="currentAssignmentId" mat-flat-button color="primary" (click)="onSubmitForm()" [disabled]="loading$ | async" matTooltip="Sauvegarder le jeu" matTooltipPosition="left">
+    <button *ngIf="currentAssignmentId" mat-flat-button color="primary" (click)="onSubmitForm()" [disabled]="loading$ | async" matTooltip="Sauvegarder l'affectation'" matTooltipPosition="left">
       <mat-icon class="btn_icon">save</mat-icon>
     </button>
   </mat-card-actions>

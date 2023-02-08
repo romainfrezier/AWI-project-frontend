@@ -10,11 +10,11 @@
 }
 
 .name {
-  color: white;
+  color: $color-accent;
 }
 
 div {
-  border-bottom: lightgray thin solid;
+  border-bottom: $color-accent thin solid;
 }
 
 .form {

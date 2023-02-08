@@ -5,26 +5,69 @@
 <mat-card>
   <mat-card-title-group>
     <div class="form">
-      <mat-form-field appearance="fill">
-        <input matInput type="text" [formControl]="searchCtrl">
-        <mat-icon matSuffix>search</mat-icon>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-select [formControl]="searchTypeCtrl">
-          <mat-option *ngFor="let option of searchTypeOptions" [value]="option.value">{{ option.label }}</mat-option>
-        </mat-select>
-      </mat-form-field>
+      <div class="form-fields">
+        <mat-form-field appearance="fill">
+          <input matInput type="text" [formControl]="searchCtrl">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+        <mat-form-field appearance="fill">
+          <mat-select [formControl]="searchTypeCtrl">
+            <mat-option *ngFor="let option of searchTypeOptions" [value]="option.value">{{ option.label }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>filter_alt</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="onNoFilter()">
+          <mat-icon>filter_alt_off</mat-icon>
+          <span>Aucun</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>calendar_month</mat-icon>
+          <span>Par créneau horaire</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>storefront</mat-icon>
+          <span>Par zone</span>
+        </button>
+      </mat-menu>
     </div>
   </mat-card-title-group>
   <mat-spinner *ngIf="loading$ | async" class="spinner"></mat-spinner>
-  <mat-nav-list *ngIf="assignments$ | async as assignments">
-    <a *ngFor="let assigment of assignments" mat-list-item [routerLink]="assigment._id.toString()">
+
+  <div *ngIf="filter.noFilter">
+    <mat-nav-list *ngIf="assignments$ | async as assignments">
+      <a *ngFor="let assigment of assignments" mat-list-item [routerLink]="assigment._id.toString()">
         <h1 matLine class="name" >
           {{ assigment.benevole.prenom | uppercase }} {{ assigment.benevole.nom | uppercase }} - {{ assigment.jeu.nom | uppercase }}
         </h1>
         <p matLine class="date">
           {{ assigment.date_deb | date: "dd/MM/yyyy 'à' HH'h'mm" }} au {{ assigment.date_fin | date: "dd/MM/yyyy 'à' HH'h'mm" }}
         </p>
-    </a>
-  </mat-nav-list>
+      </a>
+    </mat-nav-list>
+  </div>
+
+  <div *ngIf="filter.areas">
+    <mat-nav-list *ngIf="areas$ | async as areas">
+      <a *ngFor="let area of areas" mat-list-item (click)="goToArea()">
+        <h1 matLine class="name" >
+          {{ area.nom | uppercase }}
+        </h1>
+      </a>
+    </mat-nav-list>
+  </div>
+
+  <div *ngIf="filter.hours">
+    <mat-nav-list *ngIf="hours$ | async as hours">
+      <a *ngFor="let hour of hours" mat-list-item (click)="goToHour()" >
+        <h1 matLine class="name" >
+          {{ hour | date: "dd/MM/yyyy 'à' HH'h'mm" }}
+        </h1>
+      </a>
+    </mat-nav-list>
+  </div>
+
 </mat-card>

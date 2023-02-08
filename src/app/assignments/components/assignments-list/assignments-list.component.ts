@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {combineLatest, map, Observable, startWith, tap} from "rxjs";
+import {combineLatest, map, Observable, startWith} from "rxjs";
 import {FormBuilder, FormControl} from "@angular/forms";
 import {Router} from "@angular/router";
 import {Assignment} from "../../models/assignment.model";
@@ -15,9 +15,11 @@ import {Hours} from "../../enums/hours.enum";
 })
 export class AssignmentsListComponent implements OnInit {
   loading$!: Observable<boolean>;
+
   assignments$!: Observable<Assignment[]>
   areas$!: Observable<Area[]>;
-  hours!: Hours[];
+  hours$!: Observable<Date[]>;
+
   searchCtrl!: FormControl;
   searchTypeCtrl!: FormControl;
   searchTypeOptions!: {
@@ -25,11 +27,22 @@ export class AssignmentsListComponent implements OnInit {
     label: string
   }[];
 
+  filter!: {
+    noFilter: boolean,
+    areas: boolean,
+    hours: boolean,
+  }
+
   constructor(private assignmentsService: AssignmentService,
               private formBuilder: FormBuilder,
               private router: Router) { }
 
   ngOnInit(): void {
+    this.filter = {
+      noFilter: true,
+      areas: false,
+      hours: false,
+    }
     this.initForm();
     this.assignmentsService.getAssignmentsFromServer();
     this.initObservables();
@@ -78,4 +91,17 @@ export class AssignmentsListComponent implements OnInit {
     this.router.navigateByUrl("/assignments/add")
   }
 
+  onNoFilter() {
+    this.filter.noFilter = true;
+    this.filter.areas = false;
+    this.filter.hours = false;
+  }
+
+  goToArea() {
+
+  }
+
+  goToHour() {
+
+  }
 }
