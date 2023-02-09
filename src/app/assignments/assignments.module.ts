@@ -7,6 +7,7 @@ import {AssignmentService} from "./services/assignment.service";
 import { SingleAssignmentComponent } from './components/single-assignment/single-assignment.component';
 import { AssignmentFormComponent } from './components/assignment-form/assignment-form.component';
 import {AssignmentFormService} from "./services/assignment-form.service";
+import {VolunteersService} from "../volunteers/services/volunteer.service";
 
 
 
@@ -23,7 +24,8 @@ import {AssignmentFormService} from "./services/assignment-form.service";
   ],
   providers: [
     AssignmentService,
-    AssignmentFormService
+    AssignmentFormService,
+    VolunteersService
   ]
 })
 export class AssignmentsModule { }

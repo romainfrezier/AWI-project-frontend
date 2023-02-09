@@ -16,7 +16,7 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+      <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="Filtres">
         <mat-icon>filter_alt</mat-icon>
       </button>
       <mat-menu #menu="matMenu">
@@ -24,11 +24,11 @@
           <mat-icon>filter_alt_off</mat-icon>
           <span>Aucun</span>
         </button>
-        <button mat-menu-item>
+        <button mat-menu-item (click)="onHoursFilter()">
           <mat-icon>calendar_month</mat-icon>
           <span>Par créneau horaire</span>
         </button>
-        <button mat-menu-item>
+        <button mat-menu-item (click)="onAreasFilter()">
           <mat-icon>storefront</mat-icon>
           <span>Par zone</span>
         </button>
@@ -37,7 +37,7 @@
   </mat-card-title-group>
   <mat-spinner *ngIf="loading$ | async" class="spinner"></mat-spinner>
 
-  <div *ngIf="filter.noFilter">
+  <div *ngIf="filter.noFilter" class="list">
     <mat-nav-list *ngIf="assignments$ | async as assignments">
       <a *ngFor="let assigment of assignments" mat-list-item [routerLink]="assigment._id.toString()">
         <h1 matLine class="name" >
@@ -50,9 +50,9 @@
     </mat-nav-list>
   </div>
 
-  <div *ngIf="filter.areas">
+  <div *ngIf="filter.areas" class="list">
     <mat-nav-list *ngIf="areas$ | async as areas">
-      <a *ngFor="let area of areas" mat-list-item (click)="goToArea()">
+      <a *ngFor="let area of areas" mat-list-item (click)="goToArea(area._id)">
         <h1 matLine class="name" >
           {{ area.nom | uppercase }}
         </h1>
@@ -60,9 +60,9 @@
     </mat-nav-list>
   </div>
 
-  <div *ngIf="filter.hours">
+  <div *ngIf="filter.hours" class="list">
     <mat-nav-list *ngIf="hours$ | async as hours">
-      <a *ngFor="let hour of hours" mat-list-item (click)="goToHour()" >
+      <a *ngFor="let hour of hours" mat-list-item (click)="goToHour(hour.toString())" >
         <h1 matLine class="name" >
           {{ hour | date: "dd/MM/yyyy 'à' HH'h'mm" }}
         </h1>

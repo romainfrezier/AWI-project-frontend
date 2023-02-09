@@ -1,7 +1,12 @@
 <h1>Liste des bénévoles</h1>
-<button mat-flat-button color="primary" (click)="onNewVolunteer()" matTooltip="Ajouter un bénévole" matTooltipPosition="right">
-  <mat-icon class="btn_icon">add</mat-icon>
-</button>
+<div class="buttons">
+  <button mat-flat-button *ngIf="!whichInit.noFilter" color="primary" (click)="onGoBack()" matTooltip="Retour" matTooltipPosition="left">
+    <mat-icon class="btn_icon">arrow_back</mat-icon>
+  </button>
+  <button mat-flat-button color="primary" (click)="onNewVolunteer()" matTooltip="Ajouter un bénévole" matTooltipPosition="right">
+    <mat-icon class="btn_icon">add</mat-icon>
+  </button>
+</div>
 <mat-card>
   <mat-card-title-group>
     <div class="form">
@@ -20,6 +25,11 @@
   <mat-nav-list *ngIf="volunteers$ | async as volunteers">
     <a *ngFor="let volunteer of volunteers" mat-list-item [routerLink]="volunteer._id.toString()">
       <h1 matLine class="name">{{ volunteer.nom | uppercase }} {{ volunteer.prenom | titlecase }}</h1>
+    </a>
+  </mat-nav-list>
+  <mat-nav-list *ngIf="volunteersFiltered$ | async as volunteers">
+    <a *ngFor="let volunteer of volunteers" mat-list-item (click)="volunteerDetails(volunteer.benevole._id.toString())">
+      <h1 matLine class="name">{{ volunteer.benevole.nom | uppercase }} {{ volunteer.benevole.prenom | titlecase }}</h1>
     </a>
   </mat-nav-list>
 </mat-card>

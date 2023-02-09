@@ -31,6 +31,16 @@ export class AssignmentService {
     return this._game$.asObservable();
   }
 
+  private _areas$ = new BehaviorSubject<Area[]>([]);
+  get areas$(): Observable<Area[]> {
+    return this._areas$.asObservable();
+  }
+
+  private _hours$ = new BehaviorSubject<Date[]>([]);
+  get hours$(): Observable<Date[]> {
+    return this._hours$.asObservable();
+  }
+
   private setLoadingStatus(loading: boolean) {
     this._loading$.next(loading);
   }
@@ -55,12 +65,28 @@ export class AssignmentService {
     ).subscribe();
   }
 
-  getAssignmentVolunteer(id: string): Observable<Volunteer> {
-    return this.http.get<Volunteer>(`${environment.apiUrl}/volunteers/${id}`);
+  getAreasFromServer() {
+    this.setLoadingStatus(true);
+    this.http.get<Area[]>(`${environment.apiUrl}/assignments/areas`).pipe(
+      tap(areas => {
+        this._areas$.next(areas);
+        this.setLoadingStatus(false);
+      })
+    ).subscribe();
   }
 
-  getAssignmentArea(id: string): Observable<Area> {
-    return this.http.get<Area>(`${environment.apiUrl}/areas/${id}`);
+  getHoursFromServer() {
+    this.setLoadingStatus(true);
+    this.http.get<Date[]>(`${environment.apiUrl}/assignments/dates`).pipe(
+      tap(hours => {
+        this._hours$.next(hours);
+        this.setLoadingStatus(false);
+      })
+    ).subscribe();
+  }
+
+  getAssignmentVolunteer(id: string): Observable<Volunteer> {
+    return this.http.get<Volunteer>(`${environment.apiUrl}/volunteers/${id}`);
   }
 
   getAssignmentGame(id: string) {
@@ -68,9 +94,13 @@ export class AssignmentService {
   }
 
   getAssignmentById(id: string): Observable<Assignment> {
-    return this.assignments$.pipe(
-      map(assignments => assignments.filter(assignment => assignment._id === id)[0])
-    );
+    if (!this._assignments$.value.length) {
+      return this.http.get<Assignment>(`${environment.apiUrl}/assignments/${id}`);
+    } else {
+      return this.assignments$.pipe(
+        map(assignments => assignments.filter(assignment => assignment._id === id)[0])
+      );
+    }
   }
 
   removeAssigment(id: string) {

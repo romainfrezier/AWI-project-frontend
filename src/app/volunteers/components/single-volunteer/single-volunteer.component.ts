@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Observable, Subscription, switchMap, take, tap} from "rxjs";
+import {Observable, switchMap, take, tap} from "rxjs";
 import {Volunteer} from "../../models/volunteer.model";
 import {VolunteersService} from "../../services/volunteer.service";
-import {ActivatedRoute, NavigationStart, Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-single-volunteer',
@@ -51,7 +51,14 @@ export class SingleVolunteerComponent implements OnInit {
   }
 
   onGoBack() {
-    this.router.navigateByUrl('/volunteers');
+    console.log(this.router.url);
+    if (this.router.url.includes('volunteers')){
+      this.router.navigateByUrl('/volunteers');
+    } else {
+      let url = this.router.url.split('/');
+      url.pop();
+      this.router.navigateByUrl(url.join('/'));
+    }
   }
 
 }

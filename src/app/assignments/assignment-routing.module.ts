@@ -3,13 +3,17 @@ import { RouterModule, Routes } from '@angular/router';
 import {AssignmentsListComponent} from "./components/assignments-list/assignments-list.component";
 import {SingleAssignmentComponent} from "./components/single-assignment/single-assignment.component";
 import {AssignmentFormComponent} from "./components/assignment-form/assignment-form.component";
+import {VolunteersListComponent} from "../volunteers/components/volunteers-list/volunteers-list.component";
+import {SingleVolunteerComponent} from "../volunteers/components/single-volunteer/single-volunteer.component";
 
 const routes: Routes = [
   { path: '', component: AssignmentsListComponent },
   { path: 'add', component: AssignmentFormComponent},
   { path: 'update/:id', component: AssignmentFormComponent},
-  { path: 'areas', component: AssignmentsListComponent},
-  { path: 'hours', component: AssignmentsListComponent},
+  { path: 'area/:id', component: VolunteersListComponent},
+  { path: 'hour/:date', component: VolunteersListComponent},
+  { path: 'area/:id/:id', component: SingleVolunteerComponent},
+  { path: 'hour/:date/:id', component: SingleVolunteerComponent},
   { path: ':id', component: SingleAssignmentComponent}
 ];
 

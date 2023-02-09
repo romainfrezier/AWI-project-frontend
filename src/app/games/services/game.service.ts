@@ -43,9 +43,13 @@ export class GamesService {
   }
 
   getGameById(id: string): Observable<Game> {
-    return this.games$.pipe(
-      map(games => games.filter(game => game._id === id)[0])
-    );
+    if (!this._games$.value.length) {
+      return this.http.get<Game>(`${environment.apiUrl}/games/${id}`);
+    } else {
+      return this.games$.pipe(
+        map(games => games.filter(game => game._id === id)[0])
+      );
+    }
   }
 
   removeGame(id: string) {

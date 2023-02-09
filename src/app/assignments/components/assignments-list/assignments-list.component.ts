@@ -6,7 +6,6 @@ import {Assignment} from "../../models/assignment.model";
 import {AssignmentService} from "../../services/assignment.service";
 import {AssignmentSearchType} from "../../enums/assignment-search-type.enum";
 import {Area} from "../../models/area.model";
-import {Hours} from "../../enums/hours.enum";
 
 @Component({
   selector: 'app-assignments-list',
@@ -97,11 +96,29 @@ export class AssignmentsListComponent implements OnInit {
     this.filter.hours = false;
   }
 
-  goToArea() {
-
+  goToArea(id: string) {
+    this.router.navigateByUrl("/assignments/area/" + id)
   }
 
-  goToHour() {
+  goToHour(date: string) {
+    let urlDate : string = encodeURIComponent(date);
+    console.log(urlDate);
+    this.router.navigateByUrl("/assignments/hour/" + urlDate)
+  }
 
+  onHoursFilter() {
+    this.filter.noFilter = false;
+    this.filter.areas = false;
+    this.filter.hours = true;
+    this.assignmentsService.getHoursFromServer();
+    this.hours$ = this.assignmentsService.hours$;
+  }
+
+  onAreasFilter() {
+    this.filter.noFilter = false;
+    this.filter.areas = true;
+    this.filter.hours = false;
+    this.assignmentsService.getAreasFromServer();
+    this.areas$ = this.assignmentsService.areas$;
   }
 }
