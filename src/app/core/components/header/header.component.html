@@ -1,9 +1,32 @@
 <mat-toolbar color="primary">
   <a routerLink="/" class="home-link"><img class="logo" src="assets/images/logo.png" alt="logo"></a>
   <span class="spacer"></span>
-  <ul>
+  <ul class="menu-horizontal">
     <li><a routerLink="/volunteers" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Bénévoles</a></li>
     <li><a routerLink="/games" routerLinkActive="active" >Jeux</a></li>
     <li><a routerLink="/assignments" routerLinkActive="active" >Affectations</a></li>
   </ul>
+  <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="Menu"  class="menu-button">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu" class="menu-button">
+    <a routerLink="/volunteers" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+      <button mat-menu-item>
+        <mat-icon>assignment_ind</mat-icon>
+        <span>Bénévoles</span>
+      </button>
+    </a>
+    <a routerLink="/games" routerLinkActive="active" >
+      <button mat-menu-item>
+        <mat-icon>scoreboard</mat-icon>
+        <span>Jeux</span>
+      </button>
+    </a>
+    <a routerLink="/assignments" routerLinkActive="active" >
+      <button mat-menu-item>
+        <mat-icon>assignment</mat-icon>
+        <span>Affectations</span>
+      </button>
+    </a>
+  </mat-menu>
 </mat-toolbar>
