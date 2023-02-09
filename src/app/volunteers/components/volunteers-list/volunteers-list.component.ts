@@ -7,6 +7,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {VolunteersService} from "../../services/volunteer.service";
 import {VolunteerFilteredByDate} from "../../models/volunteer-filtered-by-date";
 import {VolunteerFilteredByArea} from "../../models/volunteer-filtered-by-area";
+import {Notify} from "notiflix/build/notiflix-notify-aio";
 
 @Component({
   selector: 'app-volunteers-list',
@@ -134,5 +135,22 @@ export class VolunteersListComponent implements OnInit {
 
   volunteerDetails(id: string) {
     this.router.navigateByUrl(this.router.url + "/" + id)
+  }
+
+  onEditVolunteer(id: string) {
+    this.router.navigateByUrl(`volunteers/update/${id}`)
+  }
+
+  onDeleteVolunteer(id: string) {
+    if (confirm("Voulez vous vraiment supprimer ce bénévole ?")){
+      this.volunteers$.subscribe(
+        (volunteers: Volunteer[]) => {
+          let volunteer = volunteers.find(volunteer => volunteer._id === id);
+          if (volunteer) {
+            this.volunteersService.removeVolunteer(volunteer._id);
+            Notify.success('Bénévole supprimé avec succès !')
+          }
+        });
+    }
   }
 }

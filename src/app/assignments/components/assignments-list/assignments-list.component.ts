@@ -7,6 +7,7 @@ import {AssignmentService} from "../../services/assignment.service";
 import {AssignmentSearchType} from "../../enums/assignment-search-type.enum";
 import {Area} from "../../models/area.model";
 import {TimeSlot} from "../../../volunteers/models/time-slot";
+import {Notify} from "notiflix/build/notiflix-notify-aio";
 
 @Component({
   selector: 'app-assignments-list',
@@ -95,6 +96,8 @@ export class AssignmentsListComponent implements OnInit {
     this.filter.noFilter = true;
     this.filter.areas = false;
     this.filter.hours = false;
+    this.searchCtrl.enable();
+    this.searchTypeCtrl.enable();
   }
 
   goToArea(id: string) {
@@ -111,6 +114,8 @@ export class AssignmentsListComponent implements OnInit {
     this.filter.noFilter = false;
     this.filter.areas = false;
     this.filter.hours = true;
+    this.searchCtrl.disable();
+    this.searchTypeCtrl.disable();
     this.assignmentsService.getHoursFromServer();
     this.hours$ = this.assignmentsService.hours$;
   }
@@ -119,7 +124,27 @@ export class AssignmentsListComponent implements OnInit {
     this.filter.noFilter = false;
     this.filter.areas = true;
     this.filter.hours = false;
+    this.searchCtrl.disable();
+    this.searchTypeCtrl.disable();
     this.assignmentsService.getAreasFromServer();
     this.areas$ = this.assignmentsService.areas$;
+  }
+
+  onDeleteAssignment(id: string) {
+    if (confirm("Voulez vous vraiment supprimer cette affectation ?")){
+      this.assignments$.subscribe(
+        (assignments : Assignment[]) => {
+          const assignment = assignments.find(assignment => assignment._id === id);
+          if (assignment) {
+            this.assignmentsService.removeAssigment(assignment._id);
+            Notify.success('Affectation supprimée avec succès !')
+          }
+        }
+      );
+    }
+  }
+
+  onEditAssignment(id: string) {
+    this.router.navigateByUrl("/assignments/update/" + id)
   }
 }

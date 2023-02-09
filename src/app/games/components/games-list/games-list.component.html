@@ -18,8 +18,18 @@
   </mat-card-title-group>
   <mat-spinner *ngIf="loading$ | async" class="spinner"></mat-spinner>
   <mat-nav-list *ngIf="games$ | async as games">
-    <a *ngFor="let game of games" mat-list-item [routerLink]="game._id">
-      <h1 matLine class="name">{{ game.nom | uppercase }}</h1>
-    </a>
+    <mat-list-item *ngFor="let game of games">
+      <a [routerLink]="game._id">
+        <h1 matLine class="name">{{ game.nom | uppercase }}</h1>
+      </a>
+      <span class="spacer"></span>
+      <button mat-icon-button (click)="onEditGame(game._id)" matTooltip="Modifier le jeu" matTooltipPosition="left">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onDeleteGame(game._id)" matTooltip="Supprimer le jeu" matTooltipPosition="right">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-list-item>
+
   </mat-nav-list>
 </mat-card>

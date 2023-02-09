@@ -5,8 +5,8 @@
 <mat-card>
   <mat-card-title-group>
     <div class="form">
-      <div class="form-fields">
-        <mat-form-field appearance="fill" class="search-bar">
+      <div class="form-fields" >
+        <mat-form-field appearance="fill" class="search-bar" >
           <input matInput type="text" [formControl]="searchCtrl">
           <mat-icon matSuffix>search</mat-icon>
         </mat-form-field>
@@ -39,14 +39,25 @@
 
   <div *ngIf="filter.noFilter" class="list">
     <mat-nav-list *ngIf="assignments$ | async as assignments">
-      <a *ngFor="let assigment of assignments" mat-list-item [routerLink]="assigment._id.toString()">
-        <h1 matLine class="name" >
-          {{ assigment.benevole.nom | uppercase }} {{ assigment.benevole.prenom | titlecase }} - {{ assigment.jeu.nom | uppercase }}
-        </h1>
-        <p matLine class="date">
-          {{ assigment.date_deb | date: "dd/MM/yyyy 'à' HH'h'mm" }} au {{ assigment.date_fin | date: "dd/MM/yyyy 'à' HH'h'mm" }}
-        </p>
-      </a>
+      <mat-list-item *ngFor="let assigment of assignments" mat-list-item>
+
+          <a [routerLink]="assigment._id.toString()">
+            <h1 matLine class="name" >
+              {{ assigment.benevole.nom | uppercase }} {{ assigment.benevole.prenom | titlecase }} - {{ assigment.jeu.nom | uppercase }}
+            </h1>
+            <p matLine class="date">
+              {{ assigment.date_deb | date: "dd/MM/yyyy 'à' HH'h'mm" }} au {{ assigment.date_fin | date: "dd/MM/yyyy 'à' HH'h'mm" }}
+            </p>
+          </a>
+          <span class="spacer"></span>
+
+          <button mat-icon-button (click)="onEditAssignment(assigment._id)" matTooltip="Modifier l'assignation" matTooltipPosition="left">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button (click)="onDeleteAssignment(assigment._id)" matTooltip="Supprimer l'assignation" matTooltipPosition="right">
+            <mat-icon>delete</mat-icon>
+          </button>
+      </mat-list-item>
     </mat-nav-list>
   </div>
 

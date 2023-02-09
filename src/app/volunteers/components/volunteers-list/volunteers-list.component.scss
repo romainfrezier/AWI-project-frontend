@@ -29,6 +29,24 @@ div {
   width: 30%;
 }
 
+.name {
+  color: $color-accent;
+  font-size: large;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.date {
+  color: $color-accent;
+  margin: auto;
+}
+
+a {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+}
+
 button {
   margin-bottom: 20px;
   margin-right: 20px;
@@ -40,4 +58,8 @@ button {
 
 .btn_icon {
   margin: auto 10px;
+}
+
+.spacer {
+  flex: 1 1 auto;
 }

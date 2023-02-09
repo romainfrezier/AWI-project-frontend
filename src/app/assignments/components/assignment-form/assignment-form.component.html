@@ -8,7 +8,7 @@
     <div class="form-row">
       <mat-form-field appearance="fill">
         <mat-label>Bénévole</mat-label>
-        <mat-select *ngIf="volunteersOptions$ | async as volunteers" (selectionChange)="updateVolunteer($event.value)" formControlName="benevole">
+        <mat-select *ngIf="volunteersOptions$ | async as volunteers" (selectionChange)="updateVolunteer($event.value)" [formControl]="volunteerCtrl">
           <mat-option *ngFor="let volunteer of volunteers" [value]="volunteer">
             {{ volunteer.nom | uppercase }} {{ volunteer.prenom | titlecase }}
           </mat-option>
@@ -23,7 +23,7 @@
     <div class="form-row">
       <mat-form-field appearance="fill">
         <mat-label>Jeu</mat-label>
-        <mat-select *ngIf="gamesOptions$ | async as games" (selectionChange)="updateGame($event.value)" formControlName="jeu">
+        <mat-select *ngIf="gamesOptions$ | async as games" (selectionChange)="updateGame($event.value)" [formControl]="gameCtrl">
           <mat-option *ngFor="let game of games" [value]="game">
             {{ game.nom | uppercase }} - {{ game.type | titlecase }}
           </mat-option>
@@ -38,7 +38,7 @@
     <div class="form-row">
       <mat-form-field appearance="fill">
         <mat-label>Zone</mat-label>
-        <mat-select *ngIf="areasOptions$ | async as areas" (selectionChange)="updateArea($event.value)" formControlName="zone">
+        <mat-select *ngIf="areasOptions$ | async as areas" (selectionChange)="updateArea($event.value)" [formControl]="areaCtrl">
           <mat-option *ngFor="let area of areas" [value]="area">
             {{ area.nom | uppercase }}
           </mat-option>

@@ -48,6 +48,9 @@ export class AssignmentFormComponent implements OnInit {
   hoursForm!: FormGroup;
   startHourCtrl!: FormControl;
   endHourCtrl!: FormControl;
+  gameCtrl!: FormControl;
+  volunteerCtrl!: FormControl;
+  areaCtrl!: FormControl;
 
   hoursOptions!: Hours[];
   selectedHours!: Hours;
@@ -112,11 +115,14 @@ export class AssignmentFormComponent implements OnInit {
   }
 
   private initAddForm() {
+    this.gameCtrl = this.formBuilder.control(this.selectedGame, Validators.required);
+    this.volunteerCtrl = this.formBuilder.control(this.selectedVolunteer, Validators.required);
+    this.areaCtrl = this.formBuilder.control(this.selectedArea, Validators.required);
     this.mainForm = this.formBuilder.group({
-      zone: [this.selectedArea, Validators.required],
+      zone: this.areaCtrl,
       date: ['', Validators.required],
-      jeu: [this.selectedGame, Validators.required],
-      benevole: [this.selectedVolunteer, Validators.required],
+      jeu: this.gameCtrl,
+      benevole: this.volunteerCtrl,
     });
     this.startHourCtrl = this.formBuilder.control('', Validators.required);
     this.endHourCtrl = this.formBuilder.control('', Validators.required);
@@ -137,17 +143,13 @@ export class AssignmentFormComponent implements OnInit {
       ),
       switchMap(params => this.assignmentService.getAssignmentById(params['id']))
     );
-    this.initAddForm();
     this.assignment$.subscribe((assignment: Assignment) => {
-      console.log(assignment)
       this.selectedArea = this.formService.getArea(assignment.zone._id);
       this.selectedGame = this.formService.getGame(assignment.jeu._id);
       this.selectedVolunteer = this.formService.getVolunteer(assignment.benevole._id);
+      this.initAddForm();
       this.mainForm.patchValue({
-        zone: this.selectedArea,
         date: assignment.date_deb,
-        jeu: this.selectedGame,
-        benevole: this.selectedVolunteer,
       });
       let date_deb = new Date(assignment.date_deb);
       let date_fin = new Date(assignment.date_fin);

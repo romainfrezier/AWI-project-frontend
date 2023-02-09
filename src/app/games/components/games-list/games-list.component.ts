@@ -1,11 +1,11 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
-import {combineLatest, map, Observable, startWith, tap} from "rxjs";
+import {combineLatest, map, Observable, startWith} from "rxjs";
 import {FormBuilder, FormControl} from "@angular/forms";
 import {Router} from "@angular/router";
 import {Game} from "../../models/game.model";
 import {GamesService} from "../../services/game.service";
 import {GameSearchType} from "../../enums/game-search-type.enum";
-import {VolunteerSearchType} from "../../../volunteers/enums/volunteers-search-type.enum";
+import {Notify} from "notiflix/build/notiflix-notify-aio";
 
 @Component({
   selector: 'app-games-list',
@@ -71,4 +71,20 @@ export class GamesListComponent implements OnInit {
     this.router.navigateByUrl("/games/add")
   }
 
+  onEditGame(id: string) {
+    this.router.navigateByUrl("/games/update/" + id)
+  }
+
+  onDeleteGame(id: string) {
+    if (confirm("Voulez vous vraiment supprimer ce jeu ?")){
+      this.games$.subscribe(
+        (games: Game[]) => {
+          let game = games.find(game => game._id === id);
+          if (game) {
+            this.gamesService.removeGame(game._id);
+            Notify.success('Jeu supprimé avec succès !')
+          }
+        });
+    }
+  }
 }

@@ -23,24 +23,52 @@
   </mat-card-title-group>
   <mat-spinner *ngIf="loading$ | async" class="spinner"></mat-spinner>
   <mat-nav-list *ngIf="whichInit.noFilter">
-    <a *ngFor="let volunteer of volunteers$ | async" mat-list-item [routerLink]="volunteer._id.toString()">
-      <h1 matLine class="name">{{ volunteer.nom | uppercase }} {{ volunteer.prenom | titlecase }}</h1>
-    </a>
+    <mat-list-item *ngFor="let volunteer of volunteers$ | async">
+      <a [routerLink]="volunteer._id.toString()">
+        <h1 matLine class="name">{{ volunteer.nom | uppercase }} {{ volunteer.prenom | titlecase }}</h1>
+      </a>
+      <span class="spacer"></span>
+      <button mat-icon-button (click)="onEditVolunteer(volunteer._id)" matTooltip="Modifier le bénévole" matTooltipPosition="left">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onDeleteVolunteer(volunteer._id)" matTooltip="Supprimer le bénévole" matTooltipPosition="right">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-list-item>
   </mat-nav-list>
   <mat-nav-list *ngIf="whichInit.areas">
-    <a *ngFor="let volunteer of volunteersFilteredByArea$ | async" mat-list-item (click)="volunteerDetails(volunteer.benevole._id.toString())">
-      <h1 matLine class="name">{{ volunteer.benevole.nom | uppercase }} {{ volunteer.benevole.prenom | titlecase }}</h1>
-      <p matLine class="area">
-        {{ volunteer._id.date_deb | date: "dd/MM/yyyy 'à' HH'h'mm" }} au {{ volunteer._id.date_fin | date: "dd/MM/yyyy 'à' HH'h'mm" }}
-      </p>
-    </a>
+    <mat-list-item *ngFor="let volunteer of volunteersFilteredByArea$ | async">
+      <a (click)="volunteerDetails(volunteer.benevole._id.toString())">
+        <h1 matLine class="name">{{ volunteer.benevole.nom | uppercase }} {{ volunteer.benevole.prenom | titlecase }}</h1>
+        <p matLine class="area">
+          {{ volunteer._id.date_deb | date: "dd/MM/yyyy 'à' HH'h'mm" }} au {{ volunteer._id.date_fin | date: "dd/MM/yyyy 'à' HH'h'mm" }}
+        </p>
+      </a>
+      <span class="spacer"></span>
+      <button mat-icon-button (click)="onEditVolunteer(volunteer.benevole._id)" matTooltip="Modifier le bénévole" matTooltipPosition="left">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onDeleteVolunteer(volunteer.benevole._id)" matTooltip="Supprimer le bénévole" matTooltipPosition="right">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-list-item>
   </mat-nav-list>
   <mat-nav-list *ngIf="whichInit.dates">
-    <a *ngFor="let volunteer of volunteersFilteredByDate$ | async" mat-list-item (click)="volunteerDetails(volunteer.benevole._id.toString())">
-      <h1 matLine class="name">{{ volunteer.benevole.nom | uppercase }} {{ volunteer.benevole.prenom | titlecase }}</h1>
-      <p matLine class="date">
-        {{ volunteer._id }}
-      </p>
-    </a>
+    <mat-list-item *ngFor="let volunteer of volunteersFilteredByDate$ | async">
+      <a (click)="volunteerDetails(volunteer.benevole._id.toString())">
+        <h1 matLine class="name">{{ volunteer.benevole.nom | uppercase }} {{ volunteer.benevole.prenom | titlecase }}</h1>
+        <p matLine class="date">
+          {{ volunteer._id }}
+        </p>
+      </a>
+      <span class="spacer"></span>
+      <button mat-icon-button (click)="onEditVolunteer(volunteer.benevole._id)" matTooltip="Modifier le bénévole" matTooltipPosition="left">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button (click)="onDeleteVolunteer(volunteer.benevole._id)" matTooltip="Supprimer le bénévole" matTooltipPosition="right">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-list-item>
+
   </mat-nav-list>
 </mat-card>
