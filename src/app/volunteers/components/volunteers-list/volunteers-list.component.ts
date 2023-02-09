@@ -12,7 +12,7 @@ import {VolunteersService} from "../../services/volunteer.service";
   styleUrls: ['./volunteers-list.component.scss']
 })
 export class VolunteersListComponent implements OnInit {
-  volunteer!:Volunteer;
+
   loading$!: Observable<boolean>;
   volunteers$!: Observable<Volunteer[]>
   searchCtrl!: FormControl;

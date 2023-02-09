@@ -28,10 +28,15 @@ div {
 }
 .form-fields {
   width: 95%;
+  border-bottom: none;
 }
 
-.form-fields > mat-form-field {
-  width: 50%;
+.search-bar {
+  width: 70%;
+}
+
+.search-type {
+  width: 30%;
 }
 
 button {

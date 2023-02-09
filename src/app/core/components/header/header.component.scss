@@ -23,6 +23,10 @@ li {
   display: flex;
 }
 
+.home-link:hover {
+  border-bottom: none;
+}
+
 .logo {
   margin: auto;
   height: 80%;

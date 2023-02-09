@@ -5,9 +5,14 @@
 <mat-card>
   <mat-card-title-group>
     <div class="form">
-      <mat-form-field appearance="fill" class="form">
+      <mat-form-field appearance="fill" class="search-bar">
         <input matInput type="text" [formControl]="searchCtrl">
         <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="search-type">
+        <mat-select [formControl]="searchTypeCtrl">
+          <mat-option *ngFor="let option of searchTypeOptions" [value]="option.value">{{ option.label }}</mat-option>
+        </mat-select>
       </mat-form-field>
     </div>
   </mat-card-title-group>
