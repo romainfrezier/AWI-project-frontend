@@ -6,6 +6,7 @@ import {Game} from "../../models/game.model";
 import {GameFormService} from "../../services/game-form.service";
 import {GamesService} from "../../services/game.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {Notify} from "notiflix/build/notiflix-notify-aio";
 
 @Component({
   selector: 'app-game-form',
@@ -31,6 +32,9 @@ export class GameFormComponent implements OnInit {
   ngOnInit(): void {
     this.initMainForm();
     this.initOptions();
+    Notify.init({
+      position: 'right-bottom',
+    });
   }
 
   private initMainForm(): void {
@@ -99,6 +103,7 @@ export class GameFormComponent implements OnInit {
         this.loading = false;
         if (saved) {
           this.resetForm();
+          Notify.success("Le jeu a bien été ajouté")
         } else {
           console.log("An error as occurred during saving data")
         }
@@ -115,6 +120,7 @@ export class GameFormComponent implements OnInit {
         this.loading = false;
         if (saved) {
           this.resetForm();
+          Notify.success("Le jeu a bien été modifié")
         } else {
           console.log("An error as occurred during saving data")
         }
@@ -127,6 +133,7 @@ export class GameFormComponent implements OnInit {
       this.router.navigateByUrl('/games')
     } else {
       this.router.navigateByUrl(`/games/${this.currentGameId}`)
+      Notify.info("Les modifications n'ont pas été enregistrées")
     }
   }
 

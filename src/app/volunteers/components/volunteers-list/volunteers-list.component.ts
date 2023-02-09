@@ -5,7 +5,8 @@ import {FormBuilder, FormControl} from "@angular/forms";
 import {VolunteerSearchType} from "../../enums/volunteers-search-type.enum";
 import {ActivatedRoute, Router} from '@angular/router';
 import {VolunteersService} from "../../services/volunteer.service";
-import {VolunteerFiltered} from "../../models/volunteer-filtered.enum";
+import {VolunteerFilteredByDate} from "../../models/volunteer-filtered-by-date";
+import {VolunteerFilteredByArea} from "../../models/volunteer-filtered-by-area";
 
 @Component({
   selector: 'app-volunteers-list',
@@ -16,7 +17,8 @@ export class VolunteersListComponent implements OnInit {
 
   loading$!: Observable<boolean>;
   volunteers$!: Observable<Volunteer[]>
-  volunteersFiltered$!: Observable<VolunteerFiltered[]>;
+  volunteersFilteredByDate$!: Observable<VolunteerFilteredByDate[]>;
+  volunteersFilteredByArea$!: Observable<VolunteerFilteredByArea[]>;
   searchCtrl!: FormControl;
   searchTypeCtrl!: FormControl;
   searchTypeOptions!: {
@@ -42,7 +44,7 @@ export class VolunteersListComponent implements OnInit {
     this.initObservables();
     this.initSearchTypeOptions();
     this.volunteersService.volunteers$.subscribe();
-    this.volunteersService.volunteersFiltered$.subscribe();
+    this.volunteersService.volunteersFilteredByDate$.subscribe();
   }
 
   private whichInitToMake(url: string) {
@@ -70,7 +72,8 @@ export class VolunteersListComponent implements OnInit {
   private initObservables() {
     this.loading$ = this.volunteersService.loading$;
     this.volunteers$ = this.volunteersService.volunteers$;
-    this.volunteersFiltered$ = this.volunteersService.volunteersFiltered$;
+    this.volunteersFilteredByDate$ = this.volunteersService.volunteersFilteredByDate$;
+    this.volunteersFilteredByArea$ = this.volunteersService.volunteersFilteredByArea$;
     const search$ = this.searchCtrl.valueChanges.pipe(
       startWith(this.searchCtrl.value),
       map(value => value.toLowerCase())
@@ -108,9 +111,8 @@ export class VolunteersListComponent implements OnInit {
     if (this.whichInit.noFilter) {
       this.volunteersService.getVolunteersFromServer();
     } else if (this.whichInit.dates) {
-      this.volunteersService.getVolunteersFromServerByDate(encodeURIComponent(this.route.snapshot.params['date']));
+      this.volunteersService.getVolunteersFromServerByDate(encodeURIComponent(this.route.snapshot.params['date_deb']), encodeURIComponent(this.route.snapshot.params['date_fin']));
     } else if (this.whichInit.areas) {
-
       this.volunteersService.getVolunteersFromServerByArea(this.route.snapshot.params['id']);
     }
   }

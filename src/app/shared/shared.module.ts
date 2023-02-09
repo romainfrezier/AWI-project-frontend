@@ -6,6 +6,6 @@ import {ReactiveFormsModule} from "@angular/forms";
 @NgModule({
   declarations: [],
   imports: [CommonModule, MaterialModule,ReactiveFormsModule],
-  exports: [MaterialModule, ReactiveFormsModule,]
+  exports: [MaterialModule, ReactiveFormsModule]
 })
 export class SharedModule {}

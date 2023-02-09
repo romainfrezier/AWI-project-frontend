@@ -12,6 +12,7 @@ import {Game} from "../../../games/models/game.model";
 import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter} from '@angular/material-moment-adapter';
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material/core";
 import {hoursValidator} from "../../validators/hours.validator";
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 export const MY_FORMATS = {
   parse: {
@@ -72,6 +73,9 @@ export class AssignmentFormComponent implements OnInit {
   ngOnInit(): void {
     this.initMainForm();
     this.initOptions();
+    Notify.init({
+      position: 'right-bottom',
+    });
   }
 
   private initMainForm(): void {
@@ -191,6 +195,7 @@ export class AssignmentFormComponent implements OnInit {
       tap(saved => {
         if (saved) {
           this.resetForm();
+          Notify.success("L'affectation a bien été enregistrée")
         } else {
           console.log("An error as occurred during saving data")
         }
@@ -210,6 +215,7 @@ export class AssignmentFormComponent implements OnInit {
       tap(saved => {
         if (saved) {
           this.resetForm();
+          Notify.success("L'affectation a bien été modifiée")
         } else {
           console.log("An error as occurred during saving data")
         }
@@ -240,6 +246,7 @@ export class AssignmentFormComponent implements OnInit {
       this.router.navigateByUrl('/assignments')
     } else {
       this.router.navigateByUrl(`/assignments/${this.currentAssignmentId}`)
+      Notify.info("Les modifications n'ont pas été enregistrées")
     }
   }
 

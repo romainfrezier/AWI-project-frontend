@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {Observable, Subscription, switchMap, take, tap} from "rxjs";
+import {Observable, switchMap, take, tap} from "rxjs";
 import {Game} from "../../models/game.model";
 import {GamesService} from "../../services/game.service";
-import {ActivatedRoute, NavigationStart, Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
+import {Notify} from "notiflix/build/notiflix-notify-aio";
 
 @Component({
   selector: 'app-single-game',
@@ -20,6 +21,9 @@ export class SingleGameComponent implements OnInit {
 
   ngOnInit(): void {
     this.initObservables();
+    Notify.init({
+      position: 'right-bottom',
+    });
   }
 
   private initObservables() {
@@ -35,6 +39,7 @@ export class SingleGameComponent implements OnInit {
         take(1),
         tap(game => {
           this.gamesService.removeGame(game._id);
+          Notify.success('Jeu supprimé avec succès !')
           this.onGoBack();
         })
       ).subscribe();

@@ -6,6 +6,7 @@ import {Assignment} from "../../models/assignment.model";
 import {AssignmentService} from "../../services/assignment.service";
 import {AssignmentSearchType} from "../../enums/assignment-search-type.enum";
 import {Area} from "../../models/area.model";
+import {TimeSlot} from "../../../volunteers/models/time-slot";
 
 @Component({
   selector: 'app-assignments-list',
@@ -17,7 +18,7 @@ export class AssignmentsListComponent implements OnInit {
 
   assignments$!: Observable<Assignment[]>
   areas$!: Observable<Area[]>;
-  hours$!: Observable<Date[]>;
+  hours$!: Observable<TimeSlot[]>;
 
   searchCtrl!: FormControl;
   searchTypeCtrl!: FormControl;
@@ -100,10 +101,10 @@ export class AssignmentsListComponent implements OnInit {
     this.router.navigateByUrl("/assignments/area/" + id)
   }
 
-  goToHour(date: string) {
-    let urlDate : string = encodeURIComponent(date);
-    console.log(urlDate);
-    this.router.navigateByUrl("/assignments/hour/" + urlDate)
+  goToHour(date_deb: string, date_fin: string) {
+    let urlDateDeb : string = encodeURIComponent(date_deb);
+    let urlDateFin : string = encodeURIComponent(date_fin);
+    this.router.navigateByUrl("/assignments/hour/" + urlDateDeb + "/" + urlDateFin)
   }
 
   onHoursFilter() {

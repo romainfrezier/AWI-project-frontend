@@ -5,6 +5,7 @@ import {Assignment} from "../../models/assignment.model";
 import {AssignmentService} from "../../services/assignment.service";
 import {Volunteer} from "../../../volunteers/models/volunteer.model";
 import {Game} from "../../../games/models/game.model";
+import {Notify} from "notiflix/build/notiflix-notify-aio";
 
 @Component({
   selector: 'app-single-assignment',
@@ -24,6 +25,9 @@ export class SingleAssignmentComponent implements OnInit {
 
   ngOnInit(): void {
     this.initObservables();
+    Notify.init({
+      position: 'right-bottom',
+    });
   }
 
   private initObservables() {
@@ -43,6 +47,7 @@ export class SingleAssignmentComponent implements OnInit {
         take(1),
         tap(assignment => {
           this.assignmentService.removeAssigment(assignment._id);
+          Notify.success('Affectation supprimée avec succès !')
           this.onGoBack();
         })
       ).subscribe();

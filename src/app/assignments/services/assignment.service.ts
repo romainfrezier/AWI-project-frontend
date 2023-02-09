@@ -6,6 +6,7 @@ import {Assignment} from "../models/assignment.model";
 import {Volunteer} from "../../volunteers/models/volunteer.model";
 import {Game} from "../../games/models/game.model";
 import {Area} from "../models/area.model";
+import {TimeSlot} from "../../volunteers/models/time-slot";
 
 @Injectable()
 export class AssignmentService {
@@ -36,8 +37,8 @@ export class AssignmentService {
     return this._areas$.asObservable();
   }
 
-  private _hours$ = new BehaviorSubject<Date[]>([]);
-  get hours$(): Observable<Date[]> {
+  private _hours$ = new BehaviorSubject<TimeSlot[]>([]);
+  get hours$(): Observable<TimeSlot[]> {
     return this._hours$.asObservable();
   }
 
@@ -77,7 +78,7 @@ export class AssignmentService {
 
   getHoursFromServer() {
     this.setLoadingStatus(true);
-    this.http.get<Date[]>(`${environment.apiUrl}/assignments/dates`).pipe(
+    this.http.get<TimeSlot[]>(`${environment.apiUrl}/assignments/dates`).pipe(
       tap(hours => {
         this._hours$.next(hours);
         this.setLoadingStatus(false);

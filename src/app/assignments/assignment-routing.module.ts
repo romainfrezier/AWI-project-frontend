@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: 'add', component: AssignmentFormComponent},
   { path: 'update/:id', component: AssignmentFormComponent},
   { path: 'area/:id', component: VolunteersListComponent},
-  { path: 'hour/:date', component: VolunteersListComponent},
+  { path: 'hour/:date_deb/:date_fin', component: VolunteersListComponent},
   { path: 'area/:id/:id', component: SingleVolunteerComponent},
   { path: 'hour/:date/:id', component: SingleVolunteerComponent},
   { path: ':id', component: SingleAssignmentComponent}

@@ -5,6 +5,7 @@ import {Volunteer} from "../../models/volunteer.model";
 import {VolunteerFormService} from "../../services/volunteer-form.service";
 import {VolunteersService} from "../../services/volunteer.service";
 import {ActivatedRoute, Router} from "@angular/router";
+import {Notify} from "notiflix/build/notiflix-notify-aio";
 
 @Component({
   selector: 'app-volunteer-form',
@@ -28,6 +29,9 @@ export class VolunteerFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.initMainForm();
+    Notify.init({
+      position: 'right-bottom',
+    });
   }
 
   private initMainForm(): void {
@@ -89,6 +93,7 @@ export class VolunteerFormComponent implements OnInit {
         this.loading = false;
         if (saved) {
           this.resetForm();
+          Notify.success("Bénévole ajouté avec succès");
         } else {
           console.log("An error as occurred during saving data")
         }
@@ -105,6 +110,7 @@ export class VolunteerFormComponent implements OnInit {
         this.loading = false;
         if (saved) {
           this.resetForm();
+          Notify.success("Bénévole modifié avec succès");
         } else {
           console.log("An error as occurred during saving data")
         }
@@ -118,6 +124,7 @@ export class VolunteerFormComponent implements OnInit {
     }
     else{
       this.router.navigateByUrl(`/volunteers/${this.currentVolunteerId}`)
+      Notify.info("Les modifications n'ont pas été enregistrées")
     }
   }
 

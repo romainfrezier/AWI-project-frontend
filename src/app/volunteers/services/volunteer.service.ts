@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import {BehaviorSubject, catchError, map, mapTo, Observable, of, switchMap, take, tap} from 'rxjs';
 import {environment} from "../../../environments/environment.prod";
 import {Volunteer} from "../models/volunteer.model";
-import {VolunteerFiltered} from "../models/volunteer-filtered.enum";
+import {VolunteerFilteredByDate} from "../models/volunteer-filtered-by-date";
+import {VolunteerFilteredByArea} from "../models/volunteer-filtered-by-area";
 
 @Injectable()
 export class VolunteersService {
@@ -19,9 +20,14 @@ export class VolunteersService {
     return this._volunteers$.asObservable();
   }
 
-  private _volunteersFiltered$ = new BehaviorSubject<VolunteerFiltered[]>([]);
-  get volunteersFiltered$(): Observable<VolunteerFiltered[]> {
-    return this._volunteersFiltered$.asObservable();
+  private _volunteersFilteredByDate$ = new BehaviorSubject<VolunteerFilteredByDate[]>([]);
+  get volunteersFilteredByDate$(): Observable<VolunteerFilteredByDate[]> {
+    return this._volunteersFilteredByDate$.asObservable();
+  }
+
+  private _volunteersFilteredByArea$ = new BehaviorSubject<VolunteerFilteredByArea[]>([]);
+  get volunteersFilteredByArea$(): Observable<VolunteerFilteredByArea[]> {
+    return this._volunteersFilteredByArea$.asObservable();
   }
 
   private setLoadingStatus(loading: boolean) {
@@ -80,10 +86,10 @@ export class VolunteersService {
   }
 
 
-  getVolunteersFromServerByDate(date: string) {
+  getVolunteersFromServerByDate(date_deb: string, date_fin: string) {
     this.setLoadingStatus(true);
 
-    const compareFn = (a:VolunteerFiltered, b:VolunteerFiltered) => {
+    const compareFn = (a:VolunteerFilteredByDate, b:VolunteerFilteredByDate) => {
       if (a.benevole.nom < b.benevole.nom)
         return -1;
       if (a.benevole.nom > b.benevole.nom)
@@ -91,10 +97,10 @@ export class VolunteersService {
       return 0;
     };
 
-    this.http.get<VolunteerFiltered[]>(`${environment.apiUrl}/assignments/dates/${date}`).pipe(
+    this.http.get<VolunteerFilteredByDate[]>(`${environment.apiUrl}/assignments/dates/${date_deb}/${date_fin}`).pipe(
       map(volunteers => volunteers.sort(compareFn)),
       tap(volunteers => {
-        this._volunteersFiltered$.next(volunteers);
+        this._volunteersFilteredByDate$.next(volunteers);
         this.setLoadingStatus(false);
       })
     ).subscribe();
@@ -104,7 +110,7 @@ export class VolunteersService {
   getVolunteersFromServerByArea(area: string) {
     this.setLoadingStatus(true);
 
-    const compareFn = (a:VolunteerFiltered, b:VolunteerFiltered) => {
+    const compareFn = (a:VolunteerFilteredByArea, b:VolunteerFilteredByArea) => {
       if (a.benevole.nom < b.benevole.nom)
         return -1;
       if (a.benevole.nom > b.benevole.nom)
@@ -112,10 +118,10 @@ export class VolunteersService {
       return 0;
     };
 
-    this.http.get<VolunteerFiltered[]>(`${environment.apiUrl}/assignments/areas/${area}`).pipe(
+    this.http.get<VolunteerFilteredByArea[]>(`${environment.apiUrl}/assignments/areas/${area}`).pipe(
       map(volunteers => volunteers.sort(compareFn)),
       tap(volunteers => {
-        this._volunteersFiltered$.next(volunteers);
+        this._volunteersFilteredByArea$.next(volunteers);
         this.setLoadingStatus(false);
       })
     ).subscribe();

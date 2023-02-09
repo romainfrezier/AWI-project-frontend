@@ -62,9 +62,9 @@
 
   <div *ngIf="filter.hours" class="list">
     <mat-nav-list *ngIf="hours$ | async as hours">
-      <a *ngFor="let hour of hours" mat-list-item (click)="goToHour(hour.toString())" >
+      <a *ngFor="let hour of hours" mat-list-item (click)="goToHour(hour._id.date_deb.toString(), hour._id.date_fin.toString())" >
         <h1 matLine class="name" >
-          {{ hour | date: "dd/MM/yyyy 'à' HH'h'mm" }}
+          {{ hour._id.date_deb | date: "dd/MM/yyyy 'à' HH'h'mm" }} au {{ hour._id.date_fin | date: "dd/MM/yyyy 'à' HH'h'mm" }}
         </h1>
       </a>
     </mat-nav-list>

@@ -1,4 +1,4 @@
-export class VolunteerFiltered {
+export class VolunteerFilteredByDate {
   _id!: string;
   benevole!: {
     _id: string;
