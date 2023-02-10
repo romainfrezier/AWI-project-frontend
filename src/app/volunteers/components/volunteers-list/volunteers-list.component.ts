@@ -32,6 +32,9 @@ export class VolunteersListComponent implements OnInit {
     dates: boolean,
     areas: boolean
   }
+  chosenDateStart!: string;
+  chosenDateEnd!: string;
+  chosenArea!: string;
 
   constructor(private volunteersService: VolunteersService,
               private formBuilder: FormBuilder,
@@ -61,12 +64,16 @@ export class VolunteersListComponent implements OnInit {
         dates: true,
         areas: false
       }
+      let url = this.router.url.split("/");
+      this.chosenDateStart = url[url.length - 2];
+      this.chosenDateEnd = url[url.length - 1];
     } else if (url.includes("area")) {
       this.whichInit = {
         noFilter: false,
         dates: false,
         areas: true
       }
+      this.chosenArea = this.route.snapshot.params['id'];
     }
   }
 
@@ -134,6 +141,7 @@ export class VolunteersListComponent implements OnInit {
   }
 
   volunteerDetails(id: string) {
+    console.log(this.router.url + "/" + id)
     this.router.navigateByUrl(this.router.url + "/" + id)
   }
 

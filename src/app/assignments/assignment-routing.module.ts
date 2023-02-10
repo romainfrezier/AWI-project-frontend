@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'area/:id', component: VolunteersListComponent},
   { path: 'hour/:date_deb/:date_fin', component: VolunteersListComponent},
   { path: 'area/:id/:id', component: SingleVolunteerComponent},
-  { path: 'hour/:date/:id', component: SingleVolunteerComponent},
+  { path: 'hour/:date_deb/:date_fin/:id', component: SingleVolunteerComponent},
   { path: ':id', component: SingleAssignmentComponent}
 ];
 

@@ -1,5 +1,7 @@
 <h1>Liste des bénévoles</h1>
-<div class="buttons">
+<h3 *ngIf="whichInit.dates">Pour le créneau horaire : {{ chosenDateStart | date: "dd/MM/yyyy 'à' HH'h'mm" }} au {{ chosenDateEnd | date: "dd/MM/yyyy 'à' HH'h'mm" }}</h3>
+<h3 *ngIf="whichInit.areas">Pour la zone : {{ chosenArea }}</h3>
+<div class="buttons-menu">
   <button mat-flat-button *ngIf="!whichInit.noFilter" color="primary" (click)="onGoBack()" matTooltip="Retour" matTooltipPosition="left">
     <mat-icon class="btn_icon">arrow_back</mat-icon>
   </button>
@@ -23,10 +25,8 @@
   </mat-card-title-group>
   <mat-spinner *ngIf="loading$ | async" class="spinner"></mat-spinner>
   <mat-nav-list *ngIf="whichInit.noFilter">
-    <mat-list-item *ngFor="let volunteer of volunteers$ | async">
-      <a [routerLink]="volunteer._id.toString()">
-        <h1 matLine class="name">{{ volunteer.nom | uppercase }} {{ volunteer.prenom | titlecase }}</h1>
-      </a>
+    <mat-list-item *ngFor="let volunteer of volunteers$ | async" [routerLink]="volunteer._id">
+      <h1 matLine class="name">{{ volunteer.nom | uppercase }} {{ volunteer.prenom | titlecase }}</h1>
       <span class="spacer"></span>
       <button mat-icon-button (click)="onEditVolunteer(volunteer._id)" matTooltip="Modifier le bénévole" matTooltipPosition="left">
         <mat-icon>edit</mat-icon>
@@ -37,13 +37,13 @@
     </mat-list-item>
   </mat-nav-list>
   <mat-nav-list *ngIf="whichInit.areas">
-    <mat-list-item *ngFor="let volunteer of volunteersFilteredByArea$ | async">
-      <a (click)="volunteerDetails(volunteer.benevole._id.toString())">
+    <mat-list-item *ngFor="let volunteer of volunteersFilteredByArea$ | async" (click)="volunteerDetails(volunteer.benevole._id)">
+      <div class="content">
         <h1 matLine class="name">{{ volunteer.benevole.nom | uppercase }} {{ volunteer.benevole.prenom | titlecase }}</h1>
         <p matLine class="area">
           {{ volunteer._id.date_deb | date: "dd/MM/yyyy 'à' HH'h'mm" }} au {{ volunteer._id.date_fin | date: "dd/MM/yyyy 'à' HH'h'mm" }}
         </p>
-      </a>
+      </div>
       <span class="spacer"></span>
       <button mat-icon-button (click)="onEditVolunteer(volunteer.benevole._id)" matTooltip="Modifier le bénévole" matTooltipPosition="left">
         <mat-icon>edit</mat-icon>
@@ -54,20 +54,22 @@
     </mat-list-item>
   </mat-nav-list>
   <mat-nav-list *ngIf="whichInit.dates">
-    <mat-list-item *ngFor="let volunteer of volunteersFilteredByDate$ | async">
-      <a (click)="volunteerDetails(volunteer.benevole._id.toString())">
+    <mat-list-item *ngFor="let volunteer of volunteersFilteredByDate$ | async" (click)="volunteerDetails(volunteer.benevole._id)">
+      <div class="content">
         <h1 matLine class="name">{{ volunteer.benevole.nom | uppercase }} {{ volunteer.benevole.prenom | titlecase }}</h1>
         <p matLine class="date">
           {{ volunteer._id }}
         </p>
-      </a>
+      </div>
       <span class="spacer"></span>
-      <button mat-icon-button (click)="onEditVolunteer(volunteer.benevole._id)" matTooltip="Modifier le bénévole" matTooltipPosition="left">
-        <mat-icon>edit</mat-icon>
-      </button>
-      <button mat-icon-button (click)="onDeleteVolunteer(volunteer.benevole._id)" matTooltip="Supprimer le bénévole" matTooltipPosition="right">
-        <mat-icon>delete</mat-icon>
-      </button>
+      <div class="btns">
+        <button mat-icon-button (click)="onEditVolunteer(volunteer.benevole._id)" matTooltip="Modifier le bénévole" matTooltipPosition="left">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="onDeleteVolunteer(volunteer.benevole._id)" matTooltip="Supprimer le bénévole" matTooltipPosition="right">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
     </mat-list-item>
 
   </mat-nav-list>

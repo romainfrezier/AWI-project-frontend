@@ -27,6 +27,13 @@ a {
   text-decoration: none;
 }
 
+
+.content {
+  display: flex;
+  flex-direction: column;
+  border-bottom: none;
+}
+
 div {
   border-bottom: $color-accent thin solid;
 }
@@ -63,4 +70,16 @@ button {
 
 .spacer {
   flex: 1 1 auto;
+}
+
+.btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  border-bottom: none;
+}
+
+.btns > button {
+  margin-bottom: 0;
 }

@@ -41,18 +41,28 @@ div {
   margin: auto;
 }
 
-a {
-  display: flex;
-  flex-direction: column;
-  text-decoration: none;
+h1 {
+  margin: 0;
 }
 
-button {
+h3 {
+  color: white;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  border-bottom: none;
+
+}
+
+.buttons-menu > button {
+  margin-top: 15px;
   margin-bottom: 20px;
   margin-right: 20px;
 }
 
-.buttons {
+.buttons-menu {
   border-bottom: none;
 }
 
@@ -62,4 +72,16 @@ button {
 
 .spacer {
   flex: 1 1 auto;
+}
+
+.btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  border-bottom: none;
+}
+
+a:hover {
+  border-bottom: none;
 }

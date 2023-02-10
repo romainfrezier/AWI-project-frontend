@@ -47,7 +47,7 @@ a {
   width: 30%;
 }
 
-button {
+.newButton {
   margin-bottom: 20px;
 }
 
@@ -57,4 +57,12 @@ button {
 
 .spacer {
   flex: 1 1 auto;
+}
+
+.btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  border-bottom: none;
 }

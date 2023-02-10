@@ -1,5 +1,5 @@
 <h1>Liste des jeux</h1>
-<button mat-flat-button color="primary" (click)="onNewGame()" matTooltip="Créer un jeux" matTooltipPosition="right">
+<button class="newButton" mat-flat-button color="primary" (click)="onNewGame()" matTooltip="Créer un jeux" matTooltipPosition="right">
   <mat-icon class="btn_icon">add</mat-icon>
 </button>
 <mat-card>
@@ -18,17 +18,17 @@
   </mat-card-title-group>
   <mat-spinner *ngIf="loading$ | async" class="spinner"></mat-spinner>
   <mat-nav-list *ngIf="games$ | async as games">
-    <mat-list-item *ngFor="let game of games">
-      <a [routerLink]="game._id">
-        <h1 matLine class="name">{{ game.nom | uppercase }}</h1>
-      </a>
+    <mat-list-item *ngFor="let game of games" [routerLink]="game._id">
+      <h1 matLine class="name">{{ game.nom | uppercase }}</h1>
       <span class="spacer"></span>
-      <button mat-icon-button (click)="onEditGame(game._id)" matTooltip="Modifier le jeu" matTooltipPosition="left">
-        <mat-icon>edit</mat-icon>
-      </button>
-      <button mat-icon-button (click)="onDeleteGame(game._id)" matTooltip="Supprimer le jeu" matTooltipPosition="right">
-        <mat-icon>delete</mat-icon>
-      </button>
+      <div class="btns">
+        <button mat-icon-button (click)="onEditGame(game._id)" matTooltip="Modifier le jeu" matTooltipPosition="left">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="onDeleteGame(game._id)" matTooltip="Supprimer le jeu" matTooltipPosition="right">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
     </mat-list-item>
 
   </mat-nav-list>

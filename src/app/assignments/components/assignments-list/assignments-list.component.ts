@@ -100,8 +100,8 @@ export class AssignmentsListComponent implements OnInit {
     this.searchTypeCtrl.enable();
   }
 
-  goToArea(id: string) {
-    this.router.navigateByUrl("/assignments/area/" + id)
+  goToArea(name: string) {
+    this.router.navigateByUrl("/assignments/area/" + name)
   }
 
   goToHour(date_deb: string, date_fin: string) {
