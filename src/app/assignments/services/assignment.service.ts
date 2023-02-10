@@ -68,7 +68,17 @@ export class AssignmentService {
 
   getAreasFromServer() {
     this.setLoadingStatus(true);
+
+    const compareFn = (a:Area, b:Area) => {
+      if (a.nom < b.nom)
+        return -1;
+      if (a.nom > b.nom)
+        return 1;
+      return 0;
+    };
+
     this.http.get<Area[]>(`${environment.apiUrl}/assignments/areas`).pipe(
+      map(areas => areas.sort(compareFn)),
       tap(areas => {
         this._areas$.next(areas);
         this.setLoadingStatus(false);
@@ -78,7 +88,17 @@ export class AssignmentService {
 
   getHoursFromServer() {
     this.setLoadingStatus(true);
+
+    const compareFn = (a:TimeSlot, b:TimeSlot) => {
+      if (a._id.date_deb < b._id.date_deb)
+        return -1;
+      if (a._id.date_deb > b._id.date_deb)
+        return 1;
+      return 0;
+    }
+
     this.http.get<TimeSlot[]>(`${environment.apiUrl}/assignments/dates`).pipe(
+      map(hours => hours.sort(compareFn)),
       tap(hours => {
         this._hours$.next(hours);
         this.setLoadingStatus(false);
