@@ -8,6 +8,7 @@ import {VolunteersService} from "../../services/volunteer.service";
 import {VolunteerFilteredByDate} from "../../models/volunteer-filtered-by-date";
 import {VolunteerFilteredByArea} from "../../models/volunteer-filtered-by-area";
 import {Notify} from "notiflix/build/notiflix-notify-aio";
+import {Confirm} from "notiflix";
 
 @Component({
   selector: 'app-volunteers-list',
@@ -49,6 +50,14 @@ export class VolunteersListComponent implements OnInit {
     this.initSearchTypeOptions();
     this.volunteersService.volunteers$.subscribe();
     this.volunteersService.volunteersFilteredByDate$.subscribe();
+    Confirm.init({
+      cancelButtonBackground: '#d33',
+      okButtonBackground: 'rgb(65,83,175)',
+      titleColor: 'rgb(65,83,175)',
+    });
+    Notify.init({
+      position: 'right-bottom',
+    });
   }
 
   private whichInitToMake(url: string) {
@@ -150,15 +159,24 @@ export class VolunteersListComponent implements OnInit {
   }
 
   onDeleteVolunteer(id: string) {
-    if (confirm("Voulez vous vraiment supprimer ce bénévole ?")){
-      this.volunteers$.subscribe(
-        (volunteers: Volunteer[]) => {
-          let volunteer = volunteers.find(volunteer => volunteer._id === id);
-          if (volunteer) {
-            this.volunteersService.removeVolunteer(volunteer._id);
-            Notify.success('Bénévole supprimé avec succès !')
-          }
-        });
-    }
+    Confirm.show(
+      "Suppression d'un bénévole",
+      'Voulez vous vraiment supprimer ce bénévole ?',
+      'Oui',
+      'Non',
+      () => {
+          this.volunteers$.subscribe(
+          (volunteers: Volunteer[]) => {
+            let volunteer = volunteers.find(volunteer => volunteer._id === id);
+            if (volunteer) {
+              this.volunteersService.removeVolunteer(volunteer._id);
+              Notify.success('Bénévole supprimé avec succès !')
+            }
+          });
+      },
+      () => {
+        Notify.info('Suppression annulée !')
+      },
+    );
   }
 }

@@ -4,6 +4,7 @@ import {Volunteer} from "../../models/volunteer.model";
 import {VolunteersService} from "../../services/volunteer.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {Notify} from "notiflix/build/notiflix-notify-aio";
+import {Confirm} from "notiflix";
 
 @Component({
   selector: 'app-single-volunteer',
@@ -21,6 +22,11 @@ export class SingleVolunteerComponent implements OnInit {
 
   ngOnInit(): void {
     this.initObservables();
+    Confirm.init({
+      cancelButtonBackground: '#d33',
+      okButtonBackground: 'rgb(65,83,175)',
+      titleColor: 'rgb(65,83,175)',
+    });
     Notify.init({
       position: 'right-bottom',
     });
@@ -34,16 +40,25 @@ export class SingleVolunteerComponent implements OnInit {
   }
 
   onRemove() {
-    if (confirm("Voulez vous vraiment supprimer ce bénévole ?")){
-      this.volunteer$.pipe(
-        take(1),
-        tap(volunteer => {
-          this.volunteersService.removeVolunteer(volunteer._id);
-          Notify.success('Bénévole supprimé avec succès !')
-          this.onGoBack();
-        })
-      ).subscribe();
-    }
+    Confirm.show(
+      "Suppression d'un bénévole",
+      'Voulez vous vraiment supprimer ce bénévole ?',
+      'Oui',
+      'Non',
+      () => {
+        this.volunteer$.pipe(
+          take(1),
+          tap(volunteer => {
+            this.volunteersService.removeVolunteer(volunteer._id);
+            Notify.success('Bénévole supprimé avec succès !')
+            this.onGoBack();
+          })
+        ).subscribe();
+      },
+      () => {
+        Notify.info('Suppression annulée !')
+      },
+    );
   }
 
   onUpdate() {

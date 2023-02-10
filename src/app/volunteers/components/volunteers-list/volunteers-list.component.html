@@ -44,13 +44,6 @@
           {{ volunteer._id.date_deb | date: "dd/MM/yyyy 'à' HH'h'mm" }} au {{ volunteer._id.date_fin | date: "dd/MM/yyyy 'à' HH'h'mm" }}
         </p>
       </div>
-      <span class="spacer"></span>
-      <button mat-icon-button (click)="onEditVolunteer(volunteer.benevole._id)" matTooltip="Modifier le bénévole" matTooltipPosition="left">
-        <mat-icon>edit</mat-icon>
-      </button>
-      <button mat-icon-button (click)="onDeleteVolunteer(volunteer.benevole._id)" matTooltip="Supprimer le bénévole" matTooltipPosition="right">
-        <mat-icon>delete</mat-icon>
-      </button>
     </mat-list-item>
   </mat-nav-list>
   <mat-nav-list *ngIf="whichInit.dates">
@@ -60,15 +53,6 @@
         <p matLine class="date">
           {{ volunteer._id }}
         </p>
-      </div>
-      <span class="spacer"></span>
-      <div class="btns">
-        <button mat-icon-button (click)="onEditVolunteer(volunteer.benevole._id)" matTooltip="Modifier le bénévole" matTooltipPosition="left">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button (click)="onDeleteVolunteer(volunteer.benevole._id)" matTooltip="Supprimer le bénévole" matTooltipPosition="right">
-          <mat-icon>delete</mat-icon>
-        </button>
       </div>
     </mat-list-item>
 
