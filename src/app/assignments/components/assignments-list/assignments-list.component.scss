@@ -19,6 +19,7 @@
 .date {
   color: $color-accent;
   margin: auto auto auto 0;
+  width: 100%;
 }
 
 a {
@@ -32,6 +33,7 @@ a {
   display: flex;
   flex-direction: column;
   border-bottom: none;
+  max-width: 80%;
 }
 
 div {
