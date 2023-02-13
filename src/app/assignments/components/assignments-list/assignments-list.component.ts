@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {combineLatest, map, Observable, startWith} from "rxjs";
+import {combineLatest, map, Observable, startWith, take, tap} from "rxjs";
 import {FormBuilder, FormControl} from "@angular/forms";
 import {Router} from "@angular/router";
 import {Assignment} from "../../models/assignment.model";
@@ -8,6 +8,7 @@ import {AssignmentSearchType} from "../../enums/assignment-search-type.enum";
 import {Area} from "../../models/area.model";
 import {TimeSlot} from "../../../volunteers/models/time-slot";
 import {Notify} from "notiflix/build/notiflix-notify-aio";
+import {Confirm} from "notiflix";
 
 @Component({
   selector: 'app-assignments-list',
@@ -131,17 +132,26 @@ export class AssignmentsListComponent implements OnInit {
   }
 
   onDeleteAssignment(id: string) {
-    if (confirm("Voulez vous vraiment supprimer cette affectation ?")){
-      this.assignments$.subscribe(
-        (assignments : Assignment[]) => {
-          const assignment = assignments.find(assignment => assignment._id === id);
-          if (assignment) {
-            this.assignmentsService.removeAssigment(assignment._id);
-            Notify.success('Affectation supprimée avec succès !')
+    Confirm.show(
+      "Suppression d'une affectation",
+      'Voulez vous vraiment supprimer cette affectation ?',
+      'Oui',
+      'Non',
+      () => {
+        this.assignments$.subscribe(
+          (assignments : Assignment[]) => {
+            const assignment = assignments.find(assignment => assignment._id === id);
+            if (assignment) {
+              this.assignmentsService.removeAssigment(assignment._id);
+              Notify.success('Affectation supprimée avec succès !')
+            }
           }
-        }
-      );
-    }
+        );
+      },
+      () => {
+        Notify.info('Suppression annulée !')
+      },
+    );
   }
 
   onEditAssignment(id: string) {
