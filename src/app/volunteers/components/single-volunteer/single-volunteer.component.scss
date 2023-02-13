@@ -16,6 +16,15 @@ button {
   margin-top: 40px;
 }
 
+.volunteer-info > a {
+  text-decoration: none;
+  color: $color-accent;
+}
+
+.volunteer-info > a:hover {
+  border-bottom: $color-accent thin solid;
+}
+
 .separator {
   margin: 15px auto;
   width: 90%;

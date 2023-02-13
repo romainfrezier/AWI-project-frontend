@@ -4,7 +4,7 @@
       {{ volunteer.nom | uppercase }} {{ volunteer.prenom }}
     </mat-card-title>
     <div class="volunteer-info">
-      <p>Contact : {{ volunteer.email }} </p>
+      <a href="mailto:{{volunteer.email}}">Contact : {{ volunteer.email }} </a>
     </div>
   </ng-container>
   <mat-card-actions>
