@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {combineLatest, map, Observable, startWith, take, tap} from "rxjs";
+import {combineLatest, map, Observable, startWith} from "rxjs";
 import {FormBuilder, FormControl} from "@angular/forms";
 import {Router} from "@angular/router";
 import {Assignment} from "../../models/assignment.model";
@@ -54,6 +54,14 @@ export class AssignmentsListComponent implements OnInit {
       { value: AssignmentSearchType.GAME, label: 'Jeu' },
     ]
     this.assignmentsService.assignments$.subscribe();
+    Confirm.init({
+      cancelButtonBackground: '#d33',
+      okButtonBackground: 'rgb(65,83,175)',
+      titleColor: 'rgb(65,83,175)',
+    });
+    Notify.init({
+      position: 'right-bottom',
+    });
   }
 
   private initObservables() {
