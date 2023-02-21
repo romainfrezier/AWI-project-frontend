@@ -62,7 +62,15 @@ export class AuthService {
         this.setUserData(result.user);
       })
       .catch((error) => {
-        window.alert(error.message);
+        if (error.message === "Firebase: The email address is badly formatted. (auth/invalid-email)."){
+          Notify.failure("L'adresse email n'est pas au bon format");
+        } else if (error.message === "Firebase: The email address is already in use by another account. (auth/email-already-in-use)."){
+          Notify.failure("L'adresse email est déjà utilisée");
+        } else if (error.message === "Firebase: Password should be at least 6 characters (auth/weak-password)."){
+          Notify.failure("Le mot de passe doit contenir au moins 6 caractères");
+        } else {
+          Notify.failure("Erreur d'inscription, vérifiez votre email et votre mot de passe");
+        }
       });
   }
 
@@ -78,10 +86,16 @@ export class AuthService {
     return this.afAuth
       .sendPasswordResetEmail(passwordResetEmail)
       .then(() => {
-        window.alert('Password reset email sent, check your inbox.');
+        Notify.success('Un email de réinitialisation de mot de passe vous a été envoyé');
       })
       .catch((error) => {
-        window.alert(error);
+        if (error.message === "Firebase: There is no user record corresponding to this identifier. The user may have been deleted. (auth/user-not-found)."){
+          Notify.failure("L'utilisateur n'existe pas");
+        } else if (error.message === "Firebase: The email address is badly formatted. (auth/invalid-email)."){
+          Notify.failure("L'adresse email n'est pas au bon format");
+        } else {
+          Notify.failure("Erreur d'envoi de l'email de réinitialisation de mot de passe");
+        }
       });
   }
 
@@ -112,8 +126,8 @@ export class AuthService {
         });
         this.setUserData(result.user);
       })
-      .catch((error) => {
-        window.alert(error);
+      .catch(() => {
+        Notify.failure("Erreur d'authentification, vérifiez votre email et votre mot de passe");
       });
   }
 
