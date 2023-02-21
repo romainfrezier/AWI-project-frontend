@@ -1,0 +1,12 @@
+<h1>Merci pour votre inscription !</h1>
+<mat-card *ngIf="authService.userData as user">
+  <p class="text-center">Nous avons envoyé un email de vérification à <strong>{{user.email}}</strong>.</p>
+  <p class="text-center">Merci de vérifier vos emails et de cliquer sur le lien de vérification pour activer votre compte.</p>
+  <button mat-flat-button color="primary" (click)="authService.sendVerificationMail()">
+    Renvoyer l'email de vérification
+  </button>
+</mat-card>
+<button mat-flat-button color="primary" routerLink="/auth/sign-in" class="return-btn">
+  <mat-icon>arrow_back</mat-icon>
+  Se connecter
+</button>

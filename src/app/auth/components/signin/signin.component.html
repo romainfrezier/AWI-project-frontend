@@ -1,0 +1,46 @@
+<h1>Connexion</h1>
+<mat-card>
+  <mat-card-content>
+    <div class="inputs">
+      <mat-form-field>
+        <mat-label>Adresse e-mail</mat-label>
+        <input matInput type="email" [formControl]="emailCtrl">
+        <mat-error *ngIf="emailCtrl.hasError('required')">
+          Ce champ est requis
+        </mat-error>
+        <mat-error *ngIf="emailCtrl.hasError('email')">
+          L'adresse e-mail n'est pas valide
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Mot de passe</mat-label>
+        <input matInput type="password" [formControl]="passwordCtrl">
+        <mat-error *ngIf="passwordCtrl.hasError('required')">
+          Ce champ est requis
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="connection-buttons">
+      <button mat-flat-button color="primary" (click)="authService.signIn(emailCtrl.value, passwordCtrl.value)" [disabled]="!emailCtrl.valid && !passwordCtrl.valid">
+        Se connecter
+      </button>
+      <p>Ou</p>
+      <button mat-flat-button color="primary" (click)="authService.googleAuth()">
+        <img src="assets/images/logo_google.png" class="google-logo" alt="google logo">
+        Se connecter avec Google
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>
+<div class="action-buttons">
+  <button mat-flat-button color="primary" routerLink="/auth/forgot-password">
+    <mat-icon>help</mat-icon>
+    Mot de passe oublié
+  </button>
+  <button mat-flat-button color="primary" routerLink="/auth/sign-up">
+    <mat-icon>add_circle</mat-icon>
+    Créer un compte
+  </button>
+</div>
+
+

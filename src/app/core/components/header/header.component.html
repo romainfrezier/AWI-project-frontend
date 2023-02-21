@@ -1,31 +1,56 @@
 <mat-toolbar color="primary">
   <a routerLink="/" class="home-link"><img class="logo" src="assets/images/logo.png" alt="logo"></a>
   <span class="spacer"></span>
-  <ul class="menu-horizontal">
+  <ul *ngIf="isUserLoggedIn" class="menu-horizontal">
     <li><a routerLink="/volunteers" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Bénévoles</a></li>
     <li><a routerLink="/games" routerLinkActive="active" >Jeux</a></li>
     <li><a routerLink="/assignments" routerLinkActive="active" >Affectations</a></li>
+    <li><a (click)="logout()" ><mat-icon>logout</mat-icon></a></li>
   </ul>
+  <ul *ngIf="!isUserLoggedIn" class="menu-horizontal">
+    <li><a routerLink="/auth/sign-in" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Se connecter</a></li>
+    <li><a routerLink="/auth/sign-up" routerLinkActive="active" >S'inscrire</a></li>
+  </ul>
+
+
   <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="Menu"  class="menu-button">
     <mat-icon>menu</mat-icon>
   </button>
   <mat-menu #menu="matMenu" class="menu-button">
-    <a routerLink="/volunteers" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+    <a routerLink="/volunteers" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" *ngIf="isUserLoggedIn" >
       <button mat-menu-item>
         <mat-icon>assignment_ind</mat-icon>
         <span>Bénévoles</span>
       </button>
     </a>
-    <a routerLink="/games" routerLinkActive="active" >
+    <a routerLink="/games" routerLinkActive="active" *ngIf="isUserLoggedIn" >
       <button mat-menu-item>
         <mat-icon>scoreboard</mat-icon>
         <span>Jeux</span>
       </button>
     </a>
-    <a routerLink="/assignments" routerLinkActive="active" >
+    <a routerLink="/assignments" routerLinkActive="active" *ngIf="isUserLoggedIn" >
       <button mat-menu-item>
         <mat-icon>assignment</mat-icon>
         <span>Affectations</span>
+      </button>
+    </a>
+    <a (click)="logout()" *ngIf="isUserLoggedIn" >
+      <button mat-menu-item>
+        <mat-icon>logout</mat-icon>
+        <span>Déconnexion</span>
+      </button>
+    </a>
+    <a routerLink="/auth/sign-in" routerLinkActive="active" *ngIf="!isUserLoggedIn" >
+      <button mat-menu-item>
+        <mat-icon>login</mat-icon>
+        <span>Se connecter</span>
+      </button>
+    </a>
+    <a routerLink="/auth/sign-up" routerLinkActive="active" *ngIf="!isUserLoggedIn" >
+      <button mat-menu-item>
+        <mat-icon>add_circle</mat-icon>
+        <span>S'inscrire</span>
       </button>
     </a>
   </mat-menu>
