@@ -54,14 +54,6 @@ export class AssignmentsListComponent implements OnInit {
       { value: AssignmentSearchType.GAME, label: 'Jeu' },
     ]
     this.assignmentsService.assignments$.subscribe();
-    Confirm.init({
-      cancelButtonBackground: '#d33',
-      okButtonBackground: 'rgb(65,83,175)',
-      titleColor: 'rgb(65,83,175)',
-    });
-    Notify.init({
-      position: 'right-bottom',
-    });
   }
 
   private initObservables() {

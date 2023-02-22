@@ -16,7 +16,9 @@
       </mat-form-field>
     </div>
   </mat-card-title-group>
-  <mat-spinner *ngIf="loading$ | async" class="spinner"></mat-spinner>
+  <div *ngIf="loading$ | async" class="spinner">
+    <img src="./assets/images/logo.png" alt="spinner" class="spinner-image">
+  </div>
   <mat-nav-list *ngIf="games$ | async as games">
     <mat-list-item *ngFor="let game of games" [routerLink]="game._id">
       <h1 matLine class="name">{{ game.nom | uppercase }}</h1>

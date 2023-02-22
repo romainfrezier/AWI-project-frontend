@@ -23,7 +23,9 @@
       </mat-form-field>
     </div>
   </mat-card-title-group>
-  <mat-spinner *ngIf="loading$ | async" class="spinner"></mat-spinner>
+  <div *ngIf="loading$ | async" class="spinner">
+    <img src="./assets/images/logo.png" alt="spinner" class="spinner-image">
+  </div>
   <mat-nav-list *ngIf="whichInit.noFilter">
     <mat-list-item *ngFor="let volunteer of volunteers$ | async" [routerLink]="volunteer._id">
       <h1 matLine class="name">{{ volunteer.nom | uppercase }} {{ volunteer.prenom | titlecase }}</h1>

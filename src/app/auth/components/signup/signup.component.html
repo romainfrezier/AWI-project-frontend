@@ -11,14 +11,16 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label>Mot de passe</mat-label>
-        <input matInput type="password" [formControl]="passwordCtrl">
+        <input matInput [type]="hide ? 'password' : 'text'" [formControl]="passwordCtrl">
+        <mat-icon matSuffix (click)="changeHide()">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         <mat-error>
           {{ getFormCtrlErrorText(passwordCtrl) }}
         </mat-error>
       </mat-form-field>
       <mat-form-field>
         <mat-label>Confirmer le mot de passe</mat-label>
-        <input matInput type="password" [formControl]="confirmCtrl">
+        <input matInput [type]="hide ? 'password' : 'text'" [formControl]="confirmCtrl">
+        <mat-icon matSuffix (click)="changeHide()">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         <mat-error>
           {{ getFormCtrlErrorText(confirmCtrl) }}
         </mat-error>

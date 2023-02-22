@@ -26,14 +26,6 @@ export class SingleAssignmentComponent implements OnInit {
 
   ngOnInit(): void {
     this.initObservables();
-    Confirm.init({
-      cancelButtonBackground: '#d33',
-      okButtonBackground: 'rgb(65,83,175)',
-      titleColor: 'rgb(65,83,175)',
-    });
-    Notify.init({
-      position: 'right-bottom',
-    });
   }
 
   private initObservables() {

@@ -14,7 +14,8 @@
       </mat-form-field>
       <mat-form-field>
         <mat-label>Mot de passe</mat-label>
-        <input matInput type="password" [formControl]="passwordCtrl">
+        <input matInput [type]="hide ? 'password' : 'text'" [formControl]="passwordCtrl">
+        <mat-icon matSuffix (click)="changeHide()">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
         <mat-error *ngIf="passwordCtrl.hasError('required')">
           Ce champ est requis
         </mat-error>

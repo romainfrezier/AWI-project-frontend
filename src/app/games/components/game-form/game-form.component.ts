@@ -32,9 +32,6 @@ export class GameFormComponent implements OnInit {
   ngOnInit(): void {
     this.initMainForm();
     this.initOptions();
-    Notify.init({
-      position: 'right-bottom',
-    });
   }
 
   private initMainForm(): void {

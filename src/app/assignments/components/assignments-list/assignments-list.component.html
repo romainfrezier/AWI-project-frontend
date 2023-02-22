@@ -39,7 +39,9 @@
       </mat-menu>
     </div>
   </mat-card-title-group>
-  <mat-spinner *ngIf="loading$ | async" class="spinner"></mat-spinner>
+  <div *ngIf="loading$ | async" class="spinner">
+    <img src="./assets/images/logo.png" alt="spinner" class="spinner-image">
+  </div>
 
   <div *ngIf="filter.noFilter" class="list">
     <mat-nav-list *ngIf="assignments$ | async as assignments">

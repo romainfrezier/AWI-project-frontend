@@ -50,14 +50,6 @@ export class VolunteersListComponent implements OnInit {
     this.initSearchTypeOptions();
     this.volunteersService.volunteers$.subscribe();
     this.volunteersService.volunteersFilteredByDate$.subscribe();
-    Confirm.init({
-      cancelButtonBackground: '#d33',
-      okButtonBackground: 'rgb(65,83,175)',
-      titleColor: 'rgb(65,83,175)',
-    });
-    Notify.init({
-      position: 'right-bottom',
-    });
   }
 
   private whichInitToMake(url: string) {

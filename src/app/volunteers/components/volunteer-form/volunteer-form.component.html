@@ -48,5 +48,7 @@
   <button mat-flat-button color="primary" (click)="onGoBack()" [disabled]="loading" matTooltip="Retour" matTooltipPosition="right">
     <mat-icon class="btn_icon">arrow_back</mat-icon>
   </button>
-  <mat-spinner class="spinner" *ngIf="loading" color="primary" mode="indeterminate"></mat-spinner>
+  <div class="spinner" *ngIf="loading">
+    <img src="./assets/images/logo.png" alt="spinner" class="spinner-image">
+  </div>
 </mat-card>

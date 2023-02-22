@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthService} from "../../services/auth.service";
 import {AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators} from "@angular/forms";
-import {Notify} from "notiflix/build/notiflix-notify-aio";
 
 @Component({
   selector: 'app-signup',
@@ -15,6 +14,8 @@ export class SignupComponent implements OnInit {
   passwordCtrl!: FormControl;
   confirmCtrl!: FormControl;
 
+  hide: boolean = true;
+
   constructor(public authService: AuthService) { }
 
   ngOnInit() {
@@ -25,9 +26,9 @@ export class SignupComponent implements OnInit {
       emailCtrl: this.emailCtrl,
       passwordCtrl: this.passwordCtrl,
       confirmCtrl: this.confirmCtrl
-    }, {validators: this.matchValuesValidator('passwordCtrl', 'confirmCtrl'),updateOn: 'blur'});
-    Notify.init({
-      position: 'right-bottom',
+    }, {
+      validators: this.matchValuesValidator('passwordCtrl', 'confirmCtrl'),
+      updateOn: 'blur'
     });
   }
 
@@ -55,13 +56,17 @@ export class SignupComponent implements OnInit {
       return "Ce champ est requis"
     } else if (ctrl.hasError('email')) {
       return "Ceci n'est pas une adresse email valide"
-    } else if (ctrl.hasError('minlength ')) {
+    } else if (ctrl.hasError('minlength')) {
       return "Ce champ doit contenir au moins 6 caractères"
     } else if (ctrl.hasError('confirmEqual')) {
       return "Les mots de passe ne correspondent pas"
     } else {
       return "Ce champ est invalide"
     }
+  }
+
+  changeHide() {
+    this.hide = !this.hide;
   }
 
 }

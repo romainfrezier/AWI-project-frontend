@@ -1,14 +1,5 @@
 @import "../../../../assets/styles/colors";
 
-.spinner {
-  position: relative;
-  margin-left: auto;
-  margin-right: auto;
-  left: 0;
-  right: 0;
-  text-align: center;
-}
-
 .name {
   color: $color-accent;
   font-size: large;
@@ -38,6 +29,10 @@ a {
 
 div {
   border-bottom: $color-accent thin solid;
+}
+
+.spinner {
+  border-bottom: none;
 }
 
 .form {

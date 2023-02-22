@@ -29,9 +29,6 @@ export class VolunteerFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.initMainForm();
-    Notify.init({
-      position: 'right-bottom',
-    });
   }
 
   private initMainForm(): void {

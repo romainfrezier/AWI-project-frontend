@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable } from '@angular/core';
 import * as auth from 'firebase/auth';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import {AngularFirestore, AngularFirestoreDocument} from '@angular/fire/compat/firestore';
@@ -25,7 +25,7 @@ export class AuthService {
   constructor(public afs: AngularFirestore,
               public afAuth: AngularFireAuth,
               public router: Router,
-              public ngZone: NgZone) {
+              ) {
     this.afAuth.authState.subscribe((user) => {
       if (user) {
         this.userData = user;
@@ -38,8 +38,8 @@ export class AuthService {
     });
   }
 
-  async signIn(email: string, password: string) {
-    await this.afAuth.signInWithEmailAndPassword(email, password).then((result) => {
+  signIn(email: string, password: string) {
+    return this.afAuth.signInWithEmailAndPassword(email, password).then((result) => {
       this.router.navigateByUrl("/volunteers");
       this.setIsUserLoggedIn$(true);
       this.setUserData(result.user);
@@ -120,10 +120,8 @@ export class AuthService {
 
   authLogin(provider: any) {
     return this.afAuth.signInWithPopup(provider).then((result) => {
-        this.ngZone.run(() => {
-          this.router.navigateByUrl("/volunteers");
-          this.setIsUserLoggedIn$(true);
-        });
+        this.router.navigateByUrl("/volunteers");
+        this.setIsUserLoggedIn$(true);
         this.setUserData(result.user);
       })
       .catch(() => {
