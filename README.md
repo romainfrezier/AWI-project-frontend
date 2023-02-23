@@ -1,27 +1,48 @@
-# AwiFrontend
+# AWI Project - Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.2.3.
+### What is the project ?
 
-## Development server
+The AWI (Web Application and Interoperability) project is a project that we had to do during our 4th year of engineering school. The goal of this project is to create an REST API that will be used by a web app at the first semester, and by a mobile app at the second semester.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+---
 
-## Code scaffolding
+### Techlogies used
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+<a target="_blank" href="https://angular.io/">
+  <img alt="github link" src="https://img.shields.io/badge/angular-14.2.3-orange?style=for-the-badge&logo=angular">
+</a>
 
-## Build
+<a target="_blank" href="https://material.angular.io/">
+  <img alt="github link" src="https://img.shields.io/badge/angular material-13.0.0-orange?style=for-the-badge&logo=angular">
+</a>
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+<a target="_blank" href="https://www.typescriptlang.org/">
+  <img alt="github link" src="https://img.shields.io/badge/typescript-4.9.5-orange?style=for-the-badge&logo=typescript">
+</a>
 
-## Running unit tests
+<a target="_blank" href="https://www.npmjs.com/">
+  <img alt="github link" src="https://img.shields.io/badge/npm-8.1.2-orange?style=for-the-badge&logo=npm">
+</a>
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+<a target="_blank" href="https://www.npmjs.com/package/notiflix">
+  <img alt="github link" src="https://img.shields.io/badge/notiflix-3.2.6-orange?style=for-the-badge&logo=npm">
+</a>
 
-## Running end-to-end tests
+<a target="_blank" href="https://firebase.google.com/">
+  <img alt="github link" src="https://img.shields.io/badge/firebase-9.17.1-orange?style=for-the-badge&logo=firebase">
+</a>
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+---
 
-## Further help
+### Links
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+<a target="_blank" href="https://awi-project-868686.web.app">
+    <img alt="github link" src="https://img.shields.io/badge/web-web app-blue?style=for-the-badge&logo=googlechrome">
+</a>
+<a target="_blank" href="https://github.com/RobinHermet/AWI_Project_backend">
+    <img alt="github link" src="https://img.shields.io/badge/github-backend git-red?style=for-the-badge&logo=github">
+</a>
+
+---
+
+© Romain FREZIER & Robin HERMET - Polytech Montpellier
