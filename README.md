@@ -41,7 +41,7 @@ The AWI (Web Application and Interoperability) project is a project that we had 
 <a target="_blank" href="https://awi-project-868686.web.app">
     <img alt="github link" src="https://img.shields.io/badge/web-web app-blue?style=for-the-badge&logo=googlechrome">
 </a>
-<a target="_blank" href="https://github.com/RobinHermet/AWI_Project_backend">
+<a target="_blank" href="https://github.com/romainfrezier/AWI-Project-backend">
     <img alt="github link" src="https://img.shields.io/badge/github-backend git-red?style=for-the-badge&logo=github">
 </a>
 
